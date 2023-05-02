@@ -1,0 +1,7 @@
+state
+ # state data
+ /var/lib/novus
+logs
+ # logs
+ /var/log/novus
+
