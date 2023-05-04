@@ -7,7 +7,7 @@ import (
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/wits"
 	"github.com/boggydigitl/novus/cli"
-	"github.com/boggydigitl/novus/dirs"
+	"github.com/boggydigitl/novus/data"
 	"os"
 	"path/filepath"
 )
@@ -41,7 +41,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	dirs.ChRoot(stateDir)
+	data.ChRoot(stateDir)
 
 	defs, err := clo.Load(
 		bytes.NewBuffer(cliCommands),
@@ -83,6 +83,7 @@ func main() {
 		"backup":   cli.BackupHandler,
 		"get-news": cli.GetNewsHandler,
 		"sync":     cli.SyncHandler,
+		"reduce":   cli.ReduceHandler,
 	})
 
 	if err := defs.AssertCommandsHaveHandlers(); err != nil {
