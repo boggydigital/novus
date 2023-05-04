@@ -29,7 +29,7 @@ func Reduce() error {
 
 	rs := &reduxSetter{rdx: rdx}
 
-	if err := forEachSource(rs.reduceSource, ra); err != nil {
+	if err := forEachSource(rs.reduceSource, data.ReduceErrorsProperty, ra); err != nil {
 		return ra.EndWithError(err)
 	}
 
@@ -40,7 +40,7 @@ func Reduce() error {
 
 func (rs *reduxSetter) reduceSource(src *data.Source, kv kvas.KeyValuesEditor) error {
 
-	if src.ElementsAtom == 0 {
+	if src.Query.ElementsSelector == "" {
 		return nil
 	}
 
@@ -55,15 +55,25 @@ func (rs *reduxSetter) reduceSource(src *data.Source, kv kvas.KeyValuesEditor) e
 		return err
 	}
 
-	atomMatcher := match_node.NewAtom(src.ElementsAtom)
-	elements := match_node.Matches(doc, atomMatcher, -1)
+	elementsMatcher := match_node.NewSelector(src.Query.ElementsSelector)
+	elements := match_node.Matches(doc, elementsMatcher, -1)
 
 	currentElements := make([]string, 0, len(elements))
 
 	sb := &strings.Builder{}
-	for _, e := range elements {
+	for _, element := range elements {
+
+		if src.Query.ElementReductionSelector != "" {
+			reductionMatcher := match_node.NewSelector(src.Query.ElementReductionSelector)
+			if reducedElement := match_node.Match(element, reductionMatcher); reducedElement != nil {
+				element = reducedElement
+			} else {
+				continue
+			}
+		}
+
 		sb.Reset()
-		if err := html.Render(sb, e); err != nil {
+		if err := html.Render(sb, element); err != nil {
 			return err
 		}
 		currentElements = append(currentElements, sb.String())

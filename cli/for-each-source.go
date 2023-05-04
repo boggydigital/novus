@@ -8,9 +8,9 @@ import (
 	"os"
 )
 
-type sourceContentDelegate = func(source *data.Source, kv kvas.KeyValuesEditor) error
+type sourceContentDelegate = func(src *data.Source, kv kvas.KeyValuesEditor) error
 
-func forEachSource(scd sourceContentDelegate, tpw nod.TotalProgressWriter) error {
+func forEachSource(scd sourceContentDelegate, errorsProperty string, tpw nod.TotalProgressWriter) error {
 	kv, err := kvas.ConnectLocal(data.AbsLocalContentDir(), ".html")
 	if err != nil {
 		return err
@@ -23,11 +23,26 @@ func forEachSource(scd sourceContentDelegate, tpw nod.TotalProgressWriter) error
 
 	tpw.TotalInt(len(sources))
 
+	errors := make(map[string][]string)
+
 	for _, src := range sources {
-		if err := scd(src, kv); err != nil {
-			return err
+		err = scd(src, kv)
+		if err != nil {
+			errors[src.Id] = []string{err.Error()}
+		} else {
+			errors[src.Id] = nil
 		}
 		tpw.Increment()
+	}
+
+	if errorsProperty != "" {
+		errorsRdx, err := kvas.ConnectRedux(data.AbsReduxDir(), errorsProperty)
+		if err != nil {
+			return err
+		}
+		if err = errorsRdx.BatchReplaceValues(errors); err != nil {
+			return err
+		}
 	}
 
 	return nil

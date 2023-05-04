@@ -81,6 +81,7 @@ func main() {
 
 	clo.HandleFuncs(map[string]clo.Handler{
 		"backup":   cli.BackupHandler,
+		"diff":     cli.DiffHandler,
 		"get-news": cli.GetNewsHandler,
 		"sync":     cli.SyncHandler,
 		"reduce":   cli.ReduceHandler,

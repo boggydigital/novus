@@ -8,18 +8,17 @@ func SyncHandler(_ *url.URL) error {
 
 func Sync() error {
 
-	if err := GetNews(); err != nil {
-		return err
-	}
-
-	if err := Reduce(); err != nil {
-		return err
-	}
-
-	// debug
-	//if err := PrintAll(); err != nil {
+	//if err := GetNews(); err != nil {
 	//	return err
 	//}
+
+	//if err := Reduce(); err != nil {
+	//	return err
+	//}
+
+	if err := Diff(); err != nil {
+		return err
+	}
 
 	if err := Backup(); err != nil {
 		return err

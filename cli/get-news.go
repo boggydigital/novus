@@ -22,7 +22,7 @@ func GetNews() error {
 	gna := nod.NewProgress("getting news...")
 	defer gna.End()
 
-	if err := forEachSource(getSource, gna); err != nil {
+	if err := forEachSource(getSource, data.GetNewsErrorsProperty, gna); err != nil {
 		return gna.EndWithError(err)
 	}
 
@@ -54,7 +54,7 @@ func getSource(src *data.Source, kv kvas.KeyValuesEditor) error {
 		return gsa.EndWithError(err)
 	}
 
-	matches := match_node.Matches(doc, match_node.NewSelector(src.ContainerSelector), -1)
+	matches := match_node.Matches(doc, match_node.NewSelector(src.Query.ContainerSelector), -1)
 
 	sb := &strings.Builder{}
 	textContent := ""
@@ -67,7 +67,7 @@ func getSource(src *data.Source, kv kvas.KeyValuesEditor) error {
 		}
 
 		textContent = sb.String()
-		if strings.Contains(textContent, src.TextContent) {
+		if strings.Contains(textContent, src.Query.TextContent) {
 			contentSelected = true
 
 			if err := kv.Set(src.Id, strings.NewReader(textContent)); err != nil {

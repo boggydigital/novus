@@ -1,6 +1,8 @@
 some-id
     title=Title
     url=example.com
+    recipe=known-content-type
     container-selector=container#id.class
     text-content=Some content
-    elements-atom=element
+    elements-selector=element#id.class
+    element-reduction-selector=sub#id.class

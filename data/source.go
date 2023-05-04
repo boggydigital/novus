@@ -4,25 +4,25 @@ import (
 	"errors"
 	"fmt"
 	"github.com/boggydigital/wits"
-	"golang.org/x/net/html/atom"
 	"net/url"
 )
 
 const (
-	Title             = "title"
-	URL               = "url"
-	ContainerSelector = "container-selector"
-	TextContent       = "text-content"
-	ElementsAtom      = "elements-atom"
+	Title                    = "title"
+	URL                      = "url"
+	Recipe                   = "recipe"
+	ContainerSelector        = "container-selector"
+	TextContent              = "text-content"
+	ElementsSelector         = "elements-selector"
+	ElementReductionSelector = "element-reduction-selector"
 )
 
 type Source struct {
-	Id                string
-	Title             string
-	URL               *url.URL
-	ContainerSelector string
-	TextContent       string
-	ElementsAtom      atom.Atom
+	Id     string
+	Title  string
+	URL    *url.URL
+	Recipe string
+	Query  *QuerySelectors
 }
 
 func NewSource(id string, kv wits.KeyValue) (*Source, error) {
@@ -43,27 +43,38 @@ func NewSource(id string, kv wits.KeyValue) (*Source, error) {
 			} else {
 				src.URL = u
 			}
+		case Recipe:
+			src.Recipe = v
 		case ContainerSelector:
-			src.ContainerSelector = v
+			fallthrough
 		case TextContent:
-			src.TextContent = v
-		case ElementsAtom:
-			src.ElementsAtom = atom.Lookup([]byte(v))
+			fallthrough
+		case ElementsSelector:
+			fallthrough
+		case ElementReductionSelector:
+			// do nothing, fill be processed later
 		default:
 			return nil, errors.New("unknown source parameter " + k)
 		}
 	}
 
+	if src.Recipe != "" {
+		var err error
+		src.Query, err = NewQuerySelectorsRecipe(src.Recipe)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		src.Query = NewQuerySelectors(kv)
+	}
+
 	return src, nil
 }
 
-func (s *Source) IsValid() error {
-	if s.URL == nil {
-		return fmt.Errorf("%s needs a valid %s", s.Id, URL)
-	}
-	if s.ContainerSelector == "" {
-		return fmt.Errorf("%s requires %s", s.Id, ContainerSelector)
+func (src *Source) IsValid() error {
+	if src.URL == nil {
+		return fmt.Errorf("%s needs a valid %s", src.Id, URL)
 	}
 
-	return nil
+	return src.Query.IsValid()
 }
