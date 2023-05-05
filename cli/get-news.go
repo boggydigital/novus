@@ -32,7 +32,7 @@ func GetNews() error {
 }
 
 func getSource(src *data.Source, kv kvas.KeyValuesEditor) error {
-	gsa := nod.Begin(" getting %s...", src.Title)
+	gsa := nod.Begin(" getting %s...", src.Id)
 	defer gsa.End()
 
 	if err := src.IsValid(); err != nil {

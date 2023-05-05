@@ -80,11 +80,13 @@ func main() {
 	}
 
 	clo.HandleFuncs(map[string]clo.Handler{
-		"backup":   cli.BackupHandler,
-		"diff":     cli.DiffHandler,
-		"get-news": cli.GetNewsHandler,
-		"sync":     cli.SyncHandler,
-		"reduce":   cli.ReduceHandler,
+		"diff":          cli.DiffHandler,
+		"get-news":      cli.GetNewsHandler,
+		"publish-atom":  cli.PublishAtomHandler,
+		"reset-changes": cli.ResetChangesHandler,
+		"serve":         cli.ServeHandler,
+		"sync":          cli.SyncHandler,
+		"reduce":        cli.ReduceHandler,
 	})
 
 	if err := defs.AssertCommandsHaveHandlers(); err != nil {

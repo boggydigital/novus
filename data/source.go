@@ -8,7 +8,6 @@ import (
 )
 
 const (
-	Title                    = "title"
 	URL                      = "url"
 	Recipe                   = "recipe"
 	ContainerSelector        = "container-selector"
@@ -19,7 +18,6 @@ const (
 
 type Source struct {
 	Id     string
-	Title  string
 	URL    *url.URL
 	Recipe string
 	Query  *QuerySelectors
@@ -32,11 +30,6 @@ func NewSource(id string, kv wits.KeyValue) (*Source, error) {
 
 	for k, v := range kv {
 		switch k {
-		case Title:
-			src.Title = v
-			if src.Title == "" {
-				src.Title = src.Id
-			}
 		case URL:
 			if u, err := url.Parse(v); err != nil {
 				return nil, err

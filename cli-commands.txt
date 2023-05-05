@@ -6,10 +6,16 @@
 # {} - placeholder values
 # {^} - placeholder values, first value is default
 
-backup
-
 get-news
+
+publish-atom
 
 sync
 
 reduce
+
+reset-changes
+
+serve
+    port$*
+    stderr$
