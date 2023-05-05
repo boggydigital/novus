@@ -13,7 +13,7 @@ import (
 
 const (
 	atomFeedTitle   = "novus sync updates"
-	atomEntryTitle  = "Sync results "
+	atomEntryTitle  = "Sync results"
 	atomEntryAuthor = "Contemporalis"
 )
 
