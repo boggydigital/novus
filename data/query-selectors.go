@@ -60,3 +60,18 @@ func (qs *QuerySelectors) IsValid() error {
 
 	return nil
 }
+
+func (qs *QuerySelectors) Override(another *QuerySelectors) {
+	if another.ContainerSelector != "" {
+		qs.ContainerSelector = another.ContainerSelector
+	}
+	if another.TextContent != "" {
+		qs.TextContent = another.TextContent
+	}
+	if another.ElementsSelector != "" {
+		qs.ElementsSelector = another.ElementsSelector
+	}
+	if another.ElementReductionSelector != "" {
+		qs.ElementReductionSelector = another.ElementReductionSelector
+	}
+}
