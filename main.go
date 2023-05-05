@@ -83,10 +83,10 @@ func main() {
 		"diff":          cli.DiffHandler,
 		"get-news":      cli.GetNewsHandler,
 		"publish-atom":  cli.PublishAtomHandler,
+		"reduce":        cli.ReduceHandler,
 		"reset-changes": cli.ResetChangesHandler,
 		"serve":         cli.ServeHandler,
 		"sync":          cli.SyncHandler,
-		"reduce":        cli.ReduceHandler,
 	})
 
 	if err := defs.AssertCommandsHaveHandlers(); err != nil {
