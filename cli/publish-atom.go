@@ -37,16 +37,32 @@ func PublishAtom() error {
 		return paa.EndWithError(err)
 	}
 
+	keys := make(map[string]interface{})
+
 	additions := make(map[string][]string)
 	removals := make(map[string][]string)
 	getNewsErrors := make(map[string][]string)
 	reduceErrors := make(map[string][]string)
 
-	keys := rdx.Keys(data.CurrentElementsProperty)
+	for _, id := range rdx.Keys(data.CurrentElementsProperty) {
+		keys[id] = nil
+	}
+	for _, id := range rdx.Keys(data.AddedElementsProperty) {
+		keys[id] = nil
+	}
+	for _, id := range rdx.Keys(data.RemovedElementsProperty) {
+		keys[id] = nil
+	}
+	for _, id := range rdx.Keys(data.GetNewsErrorsProperty) {
+		keys[id] = nil
+	}
+	for _, id := range rdx.Keys(data.ReduceErrorsProperty) {
+		keys[id] = nil
+	}
 
 	paa.TotalInt(len(keys))
 
-	for _, id := range keys {
+	for id := range keys {
 		if added, ok := rdx.GetAllUnchangedValues(data.AddedElementsProperty, id); ok {
 			for _, entry := range added {
 				additions[id] = append(additions[id], entry)
@@ -125,7 +141,7 @@ func changelogContent(add, rem, gnes, res map[string][]string, n int) string {
 	if len(gnes) > 0 {
 		sb.WriteString("<h1>get-news errors</h1>")
 		for id, errors := range gnes {
-			sb.WriteString("<h2>" + id + "</h2>")
+			sb.WriteString("<em>" + id + "</em>")
 			sb.WriteString("<ul>")
 			for _, err := range errors {
 				sb.WriteString("<li>" + err + "</li>")
@@ -137,7 +153,7 @@ func changelogContent(add, rem, gnes, res map[string][]string, n int) string {
 	if len(res) > 0 {
 		sb.WriteString("<h1>reduce errors</h1>")
 		for id, errors := range res {
-			sb.WriteString("<h2>" + id + "</h2>")
+			sb.WriteString("<em>" + id + "</em>")
 			sb.WriteString("<ul>")
 			for _, err := range errors {
 				sb.WriteString("<li>" + err + "</li>")

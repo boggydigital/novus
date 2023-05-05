@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"errors"
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/match_node"
 	"github.com/boggydigital/nod"
@@ -47,6 +48,9 @@ func (rs *reduxSetter) reduceSource(src *data.Source, kv kvas.KeyValuesEditor) e
 	content, err := kv.Get(src.Id)
 	if err != nil {
 		return err
+	}
+	if content == nil {
+		return errors.New("no source with id: " + src.Id)
 	}
 	defer content.Close()
 

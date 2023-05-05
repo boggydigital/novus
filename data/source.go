@@ -57,10 +57,14 @@ func NewSource(id string, kv wits.KeyValue) (*Source, error) {
 		if err != nil {
 			return nil, err
 		}
+	} else {
+		src.Query = &QuerySelectors{}
 	}
 
 	// allow overriding selectors after applying recipe
-	src.Query.Override(NewQuerySelectors(kv))
+	if qs := NewQuerySelectors(kv); qs != nil {
+		src.Query.Override(qs)
+	}
 
 	return src, nil
 }
