@@ -29,7 +29,11 @@ After deployment you can use your favorite RSS-subscription service or app to ad
 
 `http://HOSTNAME_OR_IPADDRESS:59222/atom`
 
-## Usage
+## Setting up sources
+
+[`source-example.txt`](https://github.com/boggydigital/novus/blob/main/sources-example.txt) gives and example of parameters you can use to define a source.  
+
+## Updating data
 
 To update your data you can use `novus` with a CLI interface. This approach can be used to schedule periodic updates (e.g. every day):
 

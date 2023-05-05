@@ -1,7 +1,14 @@
-some-id
+source-id
+    # URL of the source that contains the information
     url=example.com
+    # 1) One of known content types, e.g. `wikipedia-en-table-studio-albums`
     recipe=known-content-type
+    # 2) Set of selectors used on the source URL content to target
+    # - Container - could return 1 or more containers
     container-selector=container#id.class
+    # - Specific text that must be present in one of the containers
     text-content=Some content
+    # - Selector for the individual elements in the container
     elements-selector=element#id.class
+    # - Subelement selector that can be used to trim down element content
     element-reduction-selector=sub#id.class
