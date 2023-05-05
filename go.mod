@@ -6,7 +6,7 @@ require (
 	github.com/boggydigital/atomus v0.1.5 // indirect
 	github.com/boggydigital/clo v0.3.1 // indirect
 	github.com/boggydigital/kvas v0.3.27 // indirect
-	github.com/boggydigital/match_node v0.1.12 // indirect
+	github.com/boggydigital/match_node v0.1.14 // indirect
 	github.com/boggydigital/middleware v0.1.8 // indirect
 	github.com/boggydigital/nod v0.1.20 // indirect
 	github.com/boggydigital/wits v0.2.3 // indirect

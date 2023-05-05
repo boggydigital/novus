@@ -8,6 +8,7 @@ import (
 
 const (
 	WikipediaEnTableStudioAlbums = "wikipedia-en-table-studio-albums"
+	BandcampDiscographyMusic     = "bandcamp-discography-music"
 )
 
 type QuerySelectors struct {
@@ -44,6 +45,12 @@ func NewQuerySelectorsRecipe(recipe string) (*QuerySelectors, error) {
 			TextContent:              "List of studio albums",
 			ElementsSelector:         "tr",
 			ElementReductionSelector: "i",
+		}, nil
+	case BandcampDiscographyMusic:
+		return &QuerySelectors{
+			ContainerSelector:        "ol#music-grid",
+			ElementsSelector:         "li.music-grid-item",
+			ElementReductionSelector: "p.title",
 		}, nil
 	default:
 		return nil, errors.New("unknown recipe " + recipe)
