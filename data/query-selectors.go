@@ -8,6 +8,7 @@ import (
 
 const (
 	WikipediaEnTableStudioAlbums = "wikipedia-en-table-studio-albums"
+	WikipediaJaTableStudioAlbums = "wikipedia-ja-table-studio-albums"
 	BandcampDiscographyMusic     = "bandcamp-discography-music"
 )
 
@@ -45,6 +46,12 @@ func NewQuerySelectorsRecipe(recipe string) (*QuerySelectors, error) {
 			TextContent:              "List of studio albums",
 			ElementsSelector:         "tr",
 			ElementReductionSelector: "i",
+		}, nil
+	case WikipediaJaTableStudioAlbums:
+		return &QuerySelectors{
+			ContainerSelector:        "table.wikitable",
+			ElementsSelector:         "tr",
+			ElementReductionSelector: "b",
 		}, nil
 	case BandcampDiscographyMusic:
 		return &QuerySelectors{

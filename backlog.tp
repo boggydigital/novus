@@ -1,0 +1,15 @@
+Download concurrently:
+	- use kvas.GetSet
+
+Enhance downloads:
+	- add coost support
+	
+REST endpoints:
+	- /sources
+	- fix href="/..." links to use original URL
+	
+Add test cmd:
+	- allow specifying sources
+	- get-news
+	- reduce
+	- check for any errors
