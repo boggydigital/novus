@@ -16,8 +16,13 @@ reduce
 
 reset-changes
 
+reset-errors
+
 serve
     port$*
     stderr$
 
 sync
+
+test
+    reset-errors

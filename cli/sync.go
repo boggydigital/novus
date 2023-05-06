@@ -28,5 +28,9 @@ func Sync() error {
 		return nil
 	}
 
+	if err := ResetErrors(); err != nil {
+		return err
+	}
+
 	return nil
 }

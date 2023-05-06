@@ -85,8 +85,10 @@ func main() {
 		"publish-atom":  cli.PublishAtomHandler,
 		"reduce":        cli.ReduceHandler,
 		"reset-changes": cli.ResetChangesHandler,
+		"reset-errors":  cli.ResetErrorsHandler,
 		"serve":         cli.ServeHandler,
 		"sync":          cli.SyncHandler,
+		"test":          cli.TestHandler,
 	})
 
 	if err := defs.AssertCommandsHaveHandlers(); err != nil {

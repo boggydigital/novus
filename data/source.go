@@ -1,7 +1,6 @@
 package data
 
 import (
-	"errors"
 	"fmt"
 	"github.com/boggydigital/wits"
 	"net/url"
@@ -47,7 +46,7 @@ func NewSource(id string, kv wits.KeyValue) (*Source, error) {
 		case ElementReductionSelector:
 			// do nothing, fill be processed later
 		default:
-			return nil, errors.New("unknown source parameter " + k)
+			return nil, fmt.Errorf("%s has an unknown source parameter %s", id, k)
 		}
 	}
 
