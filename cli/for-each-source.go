@@ -11,6 +11,7 @@ import (
 type sourceContentDelegate = func(src *data.Source, kv kvas.KeyValuesEditor) error
 
 func forEachSource(scd sourceContentDelegate, errorsProperty string, tpw nod.TotalProgressWriter) error {
+
 	kv, err := kvas.ConnectLocal(data.AbsLocalContentDir(), ".html")
 	if err != nil {
 		return err

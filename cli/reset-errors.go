@@ -18,7 +18,7 @@ func ResetErrors() error {
 
 	rdx, err := kvas.ConnectReduxAssets(
 		data.AbsReduxDir(), nil,
-		data.GetNewsErrorsProperty,
+		data.MatchContentErrorsProperty,
 		data.ReduceErrorsProperty)
 	if err != nil {
 		return rca.EndWithError(err)
@@ -26,7 +26,7 @@ func ResetErrors() error {
 
 	emptySet := make(map[string][]string)
 
-	for _, id := range rdx.Keys(data.GetNewsErrorsProperty) {
+	for _, id := range rdx.Keys(data.MatchContentErrorsProperty) {
 		emptySet[id] = []string{}
 	}
 
@@ -34,7 +34,7 @@ func ResetErrors() error {
 		emptySet[id] = []string{}
 	}
 
-	if err := rdx.BatchReplaceValues(data.GetNewsErrorsProperty, emptySet); err != nil {
+	if err := rdx.BatchReplaceValues(data.MatchContentErrorsProperty, emptySet); err != nil {
 		return rca.EndWithError(err)
 	}
 	if err := rdx.BatchReplaceValues(data.ReduceErrorsProperty, emptySet); err != nil {

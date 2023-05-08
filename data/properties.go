@@ -1,10 +1,12 @@
 package data
 
 const (
-	GetNewsErrorsProperty    = "get-news-errors"
-	ReduceErrorsProperty     = "reduce-errors"
+	MatchContentErrorsProperty = "match-content-errors"
+	ReduceErrorsProperty       = "reduce-errors"
+
 	CurrentElementsProperty  = "current-elements"
 	AddedElementsProperty    = "added-elements"
 	RemovedElementsProperty  = "removed-elements"
 	PreviousElementsProperty = "previous-elements"
+	SourceURLProperty        = "source-url"
 )

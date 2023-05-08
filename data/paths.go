@@ -3,11 +3,12 @@ package data
 import "path/filepath"
 
 const (
-	localContentDirectory = "local-content"
-	reduxDirectory        = "_redux"
-	backupDirectory       = "backup"
-	sourcesFilename       = "sources.txt"
-	atomFilename          = "atom.xml"
+	localContentDirectory   = "local-content"
+	matchedContentDirectory = "matched-content"
+	reduxDirectory          = "_redux"
+	backupDirectory         = "backup"
+	sourcesFilename         = "sources.txt"
+	atomFilename            = "atom.xml"
 )
 
 var absRootDir string
@@ -34,6 +35,10 @@ func AbsAtomPath() string {
 
 func AbsLocalContentDir() string {
 	return filepath.Join(absRootDir, localContentDirectory)
+}
+
+func AbsMatchedContentDir() string {
+	return filepath.Join(absRootDir, matchedContentDirectory)
 }
 
 func AbsReduxDir() string {

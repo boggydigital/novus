@@ -8,7 +8,9 @@
 
 diff
 
-get-news
+get-content
+
+match-content
 
 publish-atom
 

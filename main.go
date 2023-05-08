@@ -81,9 +81,10 @@ func main() {
 
 	clo.HandleFuncs(map[string]clo.Handler{
 		"diff":          cli.DiffHandler,
-		"get-news":      cli.GetNewsHandler,
+		"get-content":   cli.GetContentHandler,
+		"match-content": cli.MatchContentHandler,
 		"publish-atom":  cli.PublishAtomHandler,
-		"reduce":        cli.ReduceHandler,
+		"reduce":        cli.ReduceContentHandler,
 		"reset-changes": cli.ResetChangesHandler,
 		"reset-errors":  cli.ResetErrorsHandler,
 		"serve":         cli.ServeHandler,

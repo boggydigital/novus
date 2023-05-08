@@ -19,35 +19,39 @@ func Test(resetErrors bool) error {
 	ta := nod.Begin("testing sources...")
 	defer ta.End()
 
-	if err := GetNews(); err != nil {
+	if err := GetContent(); err != nil {
 		return ta.EndWithError(err)
 	}
 
-	if err := Reduce(); err != nil {
+	if err := MatchContent(); err != nil {
+		return ta.EndWithError(err)
+	}
+
+	if err := ReduceContent(); err != nil {
 		return ta.EndWithError(err)
 	}
 
 	rdx, err := kvas.ConnectReduxAssets(
 		data.AbsReduxDir(), nil,
-		data.GetNewsErrorsProperty,
+		data.MatchContentErrorsProperty,
 		data.ReduceErrorsProperty)
 
 	if err != nil {
 		return ta.EndWithError(err)
 	}
 
-	gnea := nod.Begin("checking for get-news errors...")
+	gnea := nod.Begin("checking for match-content errors...")
 	defer gnea.End()
 
-	gnes := make(map[string][]string)
-	for _, id := range rdx.Keys(data.GetNewsErrorsProperty) {
-		if errors, ok := rdx.GetAllUnchangedValues(data.GetNewsErrorsProperty, id); ok && len(errors) > 0 {
-			gnes[id] = errors
+	mces := make(map[string][]string)
+	for _, id := range rdx.Keys(data.MatchContentErrorsProperty) {
+		if errors, ok := rdx.GetAllUnchangedValues(data.MatchContentErrorsProperty, id); ok && len(errors) > 0 {
+			mces[id] = errors
 		}
 	}
 
-	if len(gnes) > 0 {
-		gnea.EndWithSummary("get-news errors", gnes)
+	if len(mces) > 0 {
+		gnea.EndWithSummary("match-content errors", mces)
 	} else {
 		gnea.EndWithResult("all good")
 	}

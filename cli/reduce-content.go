@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"errors"
+	"fmt"
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/match_node"
 	"github.com/boggydigital/nod"
@@ -11,27 +11,50 @@ import (
 	"strings"
 )
 
-type reduxSetter struct {
-	rdx kvas.ReduxValues
+func ReduceContentHandler(u *url.URL) error {
+	return ReduceContent()
 }
 
-func ReduceHandler(u *url.URL) error {
-	return Reduce()
-}
-
-func Reduce() error {
+func ReduceContent() error {
 	ra := nod.NewProgress("reducing news...")
 	defer ra.End()
 
-	rdx, err := kvas.ConnectRedux(data.AbsReduxDir(), data.CurrentElementsProperty)
+	rdx, err := kvas.ConnectReduxAssets(data.AbsReduxDir(), nil,
+		data.CurrentElementsProperty,
+		data.ReduceErrorsProperty,
+		data.SourceURLProperty)
 	if err != nil {
 		return ra.EndWithError(err)
 	}
 
-	rs := &reduxSetter{rdx: rdx}
+	matchedKv, err := kvas.ConnectLocal(data.AbsMatchedContentDir(), ".html")
+	if err != nil {
+		return err
+	}
 
-	if err := forEachSource(rs.reduceSource, data.ReduceErrorsProperty, ra); err != nil {
-		return ra.EndWithError(err)
+	sources, err := loadSources()
+	if err != nil {
+		return err
+	}
+
+	ra.TotalInt(len(sources))
+
+	errors := make(map[string][]string)
+	urls := make(map[string][]string)
+
+	for _, src := range sources {
+		urls[src.Id] = []string{src.URL.String()}
+		err = reduceSource(src, matchedKv, rdx)
+
+		errors[src.Id] = []string{}
+		if err != nil {
+			errors[src.Id] = []string{err.Error()}
+		}
+		ra.Increment()
+	}
+
+	if err = rdx.BatchReplaceValues(data.ReduceErrorsProperty, errors); err != nil {
+		return err
 	}
 
 	ra.EndWithResult("done")
@@ -39,18 +62,19 @@ func Reduce() error {
 	return nil
 }
 
-func (rs *reduxSetter) reduceSource(src *data.Source, kv kvas.KeyValuesEditor) error {
+func reduceSource(src *data.Source, kv kvas.KeyValuesEditor, rdx kvas.ReduxAssets) error {
 
 	if src.Query.ElementsSelector == "" {
 		return nil
 	}
 
 	content, err := kv.Get(src.Id)
+
 	if err != nil {
 		return err
 	}
 	if content == nil {
-		return errors.New("no source with id: " + src.Id)
+		return fmt.Errorf("no source with id: %s", src.Id)
 	}
 	defer content.Close()
 
@@ -83,7 +107,7 @@ func (rs *reduxSetter) reduceSource(src *data.Source, kv kvas.KeyValuesEditor) e
 		currentElements = append(currentElements, sb.String())
 	}
 
-	if err := rs.rdx.ReplaceValues(src.Id, currentElements...); err != nil {
+	if err := rdx.ReplaceValues(data.CurrentElementsProperty, src.Id, currentElements...); err != nil {
 		return err
 	}
 

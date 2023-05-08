@@ -31,7 +31,7 @@ func PublishAtom() error {
 		data.CurrentElementsProperty,
 		data.AddedElementsProperty,
 		data.RemovedElementsProperty,
-		data.GetNewsErrorsProperty,
+		data.MatchContentErrorsProperty,
 		data.ReduceErrorsProperty)
 	if err != nil {
 		return paa.EndWithError(err)
@@ -41,7 +41,7 @@ func PublishAtom() error {
 
 	additions := make(map[string][]string)
 	removals := make(map[string][]string)
-	getNewsErrors := make(map[string][]string)
+	matchContentErrors := make(map[string][]string)
 	reduceErrors := make(map[string][]string)
 
 	for _, id := range rdx.Keys(data.CurrentElementsProperty) {
@@ -53,7 +53,7 @@ func PublishAtom() error {
 	for _, id := range rdx.Keys(data.RemovedElementsProperty) {
 		keys[id] = nil
 	}
-	for _, id := range rdx.Keys(data.GetNewsErrorsProperty) {
+	for _, id := range rdx.Keys(data.MatchContentErrorsProperty) {
 		keys[id] = nil
 	}
 	for _, id := range rdx.Keys(data.ReduceErrorsProperty) {
@@ -73,9 +73,9 @@ func PublishAtom() error {
 				removals[id] = append(removals[id], entry)
 			}
 		}
-		if gnes, ok := rdx.GetAllUnchangedValues(data.GetNewsErrorsProperty, id); ok {
-			for _, entry := range gnes {
-				getNewsErrors[id] = append(getNewsErrors[id], entry)
+		if mces, ok := rdx.GetAllUnchangedValues(data.MatchContentErrorsProperty, id); ok {
+			for _, entry := range mces {
+				matchContentErrors[id] = append(matchContentErrors[id], entry)
 			}
 		}
 		if res, ok := rdx.GetAllUnchangedValues(data.ReduceErrorsProperty, id); ok {
@@ -88,7 +88,7 @@ func PublishAtom() error {
 	}
 
 	af := atomus.NewFeed(atomFeedTitle, "")
-	content := changelogContent(additions, removals, getNewsErrors, reduceErrors, len(keys))
+	content := changelogContent(additions, removals, matchContentErrors, reduceErrors, len(keys))
 	af.SetEntry(atomEntryTitle, atomEntryAuthor, content)
 
 	atomFile, err := os.Create(data.AbsAtomPath())
@@ -106,7 +106,7 @@ func PublishAtom() error {
 	return nil
 }
 
-func changelogContent(add, rem, gnes, res map[string][]string, n int) string {
+func changelogContent(add, rem, mces, res map[string][]string, n int) string {
 	sb := &strings.Builder{}
 
 	if len(add) > 0 {
@@ -138,9 +138,9 @@ func changelogContent(add, rem, gnes, res map[string][]string, n int) string {
 		sb.WriteString(fmt.Sprintf("<div>%d source(s) have been checked</div>", n))
 	}
 
-	if len(gnes) > 0 {
-		sb.WriteString("<h1>get-news errors</h1>")
-		for id, errors := range gnes {
+	if len(mces) > 0 {
+		sb.WriteString("<h1>match-content errors</h1>")
+		for id, errors := range mces {
 			sb.WriteString("<em>" + id + "</em>")
 			sb.WriteString("<ul>")
 			for _, err := range errors {
