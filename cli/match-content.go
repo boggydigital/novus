@@ -83,6 +83,10 @@ func matchSource(src *data.Source, localKv, matchedKv kvas.KeyValuesEditor) erro
 	}
 
 	matches := match_node.Matches(doc, match_node.NewSelector(src.Query.ContainerSelector), -1)
+	if len(matches) == 0 {
+		err := fmt.Errorf("%s %s selected nothing", src.Id, data.ContainerSelector)
+		return err
+	}
 
 	sb := &strings.Builder{}
 	textContent := ""
@@ -107,7 +111,7 @@ func matchSource(src *data.Source, localKv, matchedKv kvas.KeyValuesEditor) erro
 	}
 
 	if !contentSelected {
-		err := fmt.Errorf("%s doesn't have elements with: '%s'", src.Id, data.TextContent)
+		err := fmt.Errorf("%s %s selected nothing", src.Id, data.TextContent)
 		return err
 	}
 

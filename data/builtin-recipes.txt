@@ -15,3 +15,7 @@ bandcamp-discography-music
     container-selector=ol#music-grid
 	elements-selector=li.music-grid-item
 	element-reduction-selector=p.title
+litres-author-books
+    container-selector=div.person-page-list__content
+    elements-selector=div.arts_by_alphabet_item
+    element-reduction-selector=div.art_name_container

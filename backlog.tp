@@ -6,6 +6,10 @@ Improve sync performance:
 	
 REST endpoints:
 	- /sources
+		- use templates for all HTML output
+		- add CSP header to disable script
+		- add standard styles
+		- rewrite URLs
 	- fix href="/..." links to use original URL @done(2023-05-08)
 	
 Allow adding recipes: @done(2023-05-08)
