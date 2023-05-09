@@ -32,45 +32,42 @@ func PublishAtom() error {
 		data.AddedElementsProperty,
 		data.RemovedElementsProperty,
 		data.MatchContentErrorsProperty,
-		data.ReduceErrorsProperty)
+		data.ReduceErrorsProperty,
+		data.SourceURLProperty)
 	if err != nil {
 		return paa.EndWithError(err)
 	}
-
-	keys := make(map[string]interface{})
 
 	additions := make(map[string][]string)
 	removals := make(map[string][]string)
 	matchContentErrors := make(map[string][]string)
 	reduceErrors := make(map[string][]string)
 
-	for _, id := range rdx.Keys(data.CurrentElementsProperty) {
-		keys[id] = nil
-	}
-	for _, id := range rdx.Keys(data.AddedElementsProperty) {
-		keys[id] = nil
-	}
-	for _, id := range rdx.Keys(data.RemovedElementsProperty) {
-		keys[id] = nil
-	}
-	for _, id := range rdx.Keys(data.MatchContentErrorsProperty) {
-		keys[id] = nil
-	}
-	for _, id := range rdx.Keys(data.ReduceErrorsProperty) {
-		keys[id] = nil
-	}
+	ks := keys(rdx,
+		data.CurrentElementsProperty,
+		data.AddedElementsProperty,
+		data.RemovedElementsProperty,
+		data.MatchContentErrorsProperty,
+		data.ReduceErrorsProperty)
 
-	paa.TotalInt(len(keys))
+	paa.TotalInt(len(ks))
 
-	for id := range keys {
+	for id := range ks {
+		host := ""
+		if su, ok := rdx.GetFirstVal(data.SourceURLProperty, id); ok {
+			if u, err := url.Parse(su); err == nil {
+				host = u.Scheme + "://" + u.Host
+			}
+		}
+
 		if added, ok := rdx.GetAllUnchangedValues(data.AddedElementsProperty, id); ok {
 			for _, entry := range added {
-				additions[id] = append(additions[id], entry)
+				additions[id] = append(additions[id], absHref(entry, host))
 			}
 		}
 		if removed, ok := rdx.GetAllUnchangedValues(data.RemovedElementsProperty, id); ok {
 			for _, entry := range removed {
-				removals[id] = append(removals[id], entry)
+				removals[id] = append(removals[id], absHref(entry, host))
 			}
 		}
 		if mces, ok := rdx.GetAllUnchangedValues(data.MatchContentErrorsProperty, id); ok {
@@ -88,7 +85,7 @@ func PublishAtom() error {
 	}
 
 	af := atomus.NewFeed(atomFeedTitle, "")
-	content := changelogContent(additions, removals, matchContentErrors, reduceErrors, len(keys))
+	content := changelogContent(additions, removals, matchContentErrors, reduceErrors, len(ks))
 	af.SetEntry(atomEntryTitle, atomEntryAuthor, content)
 
 	atomFile, err := os.Create(data.AbsAtomPath())
@@ -104,6 +101,23 @@ func PublishAtom() error {
 	paa.EndWithResult("done")
 
 	return nil
+}
+
+func keys(rdx kvas.ReduxAssets, properties ...string) map[string]interface{} {
+	ks := make(map[string]interface{})
+	for _, p := range properties {
+		for _, id := range rdx.Keys(p) {
+			ks[id] = nil
+		}
+	}
+	return ks
+}
+
+func absHref(element, host string) string {
+	if host == "" {
+		return element
+	}
+	return strings.Replace(element, "href=\"/", "href=\""+host+"/", -1)
 }
 
 func changelogContent(add, rem, mces, res map[string][]string, n int) string {

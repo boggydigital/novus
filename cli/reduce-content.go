@@ -29,12 +29,12 @@ func ReduceContent(since int64) error {
 
 	matchedKv, err := kvas.ConnectLocal(data.AbsMatchedContentDir(), ".html")
 	if err != nil {
-		return err
+		return ra.EndWithError(err)
 	}
 
 	sources, err := data.LoadSources()
 	if err != nil {
-		return err
+		return ra.EndWithError(err)
 	}
 
 	ra.TotalInt(len(sources))
@@ -62,8 +62,11 @@ func ReduceContent(since int64) error {
 		ra.Increment()
 	}
 
+	if err = rdx.BatchReplaceValues(data.SourceURLProperty, urls); err != nil {
+		return ra.EndWithError(err)
+	}
 	if err = rdx.BatchReplaceValues(data.ReduceErrorsProperty, errors); err != nil {
-		return err
+		return ra.EndWithError(err)
 	}
 
 	ra.EndWithResult("done")
