@@ -13,6 +13,5 @@ wikipedia-unordered-list
 	element-reduction-selector=i
 bandcamp-discography-music
     container-selector=ol#music-grid
-	text-content=List of studio albums
 	elements-selector=li.music-grid-item
 	element-reduction-selector=p.title
