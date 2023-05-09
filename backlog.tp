@@ -8,8 +8,8 @@ REST endpoints:
 	- /sources
 	- fix href="/..." links to use original URL
 	
-Allow adding recipes:
-	- refactor recipes into a wits file and embed
+Allow adding recipes: @done(2023-05-08)
+	- refactor recipes into a wits file and embed @done(2023-05-08)
 
 Archive:
 	Add test cmd: @done(2023-05-06)

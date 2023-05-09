@@ -22,7 +22,7 @@ type Source struct {
 	Query  *QuerySelectors
 }
 
-func newSource(id string, kv wits.KeyValue) (*Source, error) {
+func newSource(id string, kv wits.KeyValue, recipes wits.SectionKeyValue) (*Source, error) {
 	src := &Source{
 		Id: id,
 	}
@@ -51,12 +51,12 @@ func newSource(id string, kv wits.KeyValue) (*Source, error) {
 	}
 
 	if src.Recipe != "" {
-		var err error
-		src.Query, err = NewQuerySelectorsRecipe(src.Recipe)
-		if err != nil {
-			return nil, err
+		if rcp, ok := recipes[src.Recipe]; ok {
+			src.Query = NewQuerySelectors(rcp)
 		}
-	} else {
+	}
+
+	if src.Query == nil {
 		src.Query = &QuerySelectors{}
 	}
 

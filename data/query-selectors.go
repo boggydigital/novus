@@ -1,16 +1,9 @@
 package data
 
 import (
-	"errors"
+	_ "embed"
 	"fmt"
 	"github.com/boggydigital/wits"
-)
-
-const (
-	WikipediaEnTableStudioAlbums = "wikipedia-en-table-studio-albums"
-	WikipediaJaTableStudioAlbums = "wikipedia-ja-table-studio-albums"
-	WikipediaUnorderedList       = "wikipedia-unordered-list"
-	BandcampDiscographyMusic     = "bandcamp-discography-music"
 )
 
 type QuerySelectors struct {
@@ -37,38 +30,6 @@ func NewQuerySelectors(kv wits.KeyValue) *QuerySelectors {
 	}
 
 	return qs
-}
-
-func NewQuerySelectorsRecipe(recipe string) (*QuerySelectors, error) {
-	switch recipe {
-	case WikipediaEnTableStudioAlbums:
-		return &QuerySelectors{
-			ContainerSelector:        "table.wikitable",
-			TextContent:              "List of studio albums",
-			ElementsSelector:         "tr",
-			ElementReductionSelector: "i",
-		}, nil
-	case WikipediaJaTableStudioAlbums:
-		return &QuerySelectors{
-			ContainerSelector:        "table.wikitable",
-			ElementsSelector:         "tr",
-			ElementReductionSelector: "b",
-		}, nil
-	case WikipediaUnorderedList:
-		return &QuerySelectors{
-			ContainerSelector:        "ul",
-			ElementsSelector:         "li",
-			ElementReductionSelector: "i",
-		}, nil
-	case BandcampDiscographyMusic:
-		return &QuerySelectors{
-			ContainerSelector:        "ol#music-grid",
-			ElementsSelector:         "li.music-grid-item",
-			ElementReductionSelector: "p.title",
-		}, nil
-	default:
-		return nil, errors.New("unknown recipe " + recipe)
-	}
 }
 
 func (qs *QuerySelectors) IsValid() error {

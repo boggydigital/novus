@@ -17,10 +17,15 @@ func LoadSources() ([]*Source, error) {
 		return nil, err
 	}
 
+	recipes, err := LoadRecipes()
+	if err != nil {
+		return nil, err
+	}
+
 	sources := make([]*Source, 0, len(skv))
 
 	for id, kv := range skv {
-		src, err := newSource(id, kv)
+		src, err := newSource(id, kv, recipes)
 		if err != nil {
 			return nil, err
 		}
