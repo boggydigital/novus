@@ -12,10 +12,10 @@ import (
 )
 
 func ReduceContentHandler(u *url.URL) error {
-	return ReduceContent()
+	return ReduceContent(0)
 }
 
-func ReduceContent() error {
+func ReduceContent(since int64) error {
 	ra := nod.NewProgress("reducing news...")
 	defer ra.End()
 
@@ -32,7 +32,7 @@ func ReduceContent() error {
 		return err
 	}
 
-	sources, err := loadSources()
+	sources, err := data.LoadSources()
 	if err != nil {
 		return err
 	}
@@ -42,13 +42,22 @@ func ReduceContent() error {
 	errors := make(map[string][]string)
 	urls := make(map[string][]string)
 
-	for _, src := range sources {
-		urls[src.Id] = []string{src.URL.String()}
+	var ids []string
+	if since > 0 {
+		ids = matchedKv.ModifiedAfter(since, false)
+	} else {
+		ids = data.SourcesIds(sources...)
+	}
+
+	for _, id := range ids {
+		src := data.SourceById(id, sources...)
+
+		urls[id] = []string{src.URL.String()}
 		err = reduceSource(src, matchedKv, rdx)
 
-		errors[src.Id] = []string{}
+		errors[id] = []string{}
 		if err != nil {
-			errors[src.Id] = []string{err.Error()}
+			errors[id] = []string{err.Error()}
 		}
 		ra.Increment()
 	}

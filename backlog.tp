@@ -1,13 +1,16 @@
 Improve sync performance:
 	- use "If-Modified-Since" when requesting content
 		- should also make standard for vangogh/fedorov
-	- use kvas.GetSet for concurrent downloads
-	- only consider content modified since sync start for reduction and diffing
+	- use kvas.GetSet for concurrent downloads @done(2023-05-08)
+	- only consider content modified since sync start for reduction and diffing @done(2023-05-08)
 	
 REST endpoints:
 	- /sources
 	- fix href="/..." links to use original URL
 	
+Allow adding recipes:
+	- refactor recipes into a wits file and embed
+
 Archive:
 	Add test cmd: @done(2023-05-06)
 		- allow specifying sources @done(2023-05-06)

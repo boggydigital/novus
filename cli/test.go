@@ -23,11 +23,11 @@ func Test(resetErrors bool) error {
 		return ta.EndWithError(err)
 	}
 
-	if err := MatchContent(); err != nil {
+	if err := MatchContent(0); err != nil {
 		return ta.EndWithError(err)
 	}
 
-	if err := ReduceContent(); err != nil {
+	if err := ReduceContent(0); err != nil {
 		return ta.EndWithError(err)
 	}
 

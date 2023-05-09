@@ -22,7 +22,7 @@ type Source struct {
 	Query  *QuerySelectors
 }
 
-func NewSource(id string, kv wits.KeyValue) (*Source, error) {
+func newSource(id string, kv wits.KeyValue) (*Source, error) {
 	src := &Source{
 		Id: id,
 	}

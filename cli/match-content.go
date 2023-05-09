@@ -12,10 +12,10 @@ import (
 )
 
 func MatchContentHandler(u *url.URL) error {
-	return MatchContent()
+	return MatchContent(0)
 }
 
-func MatchContent() error {
+func MatchContent(since int64) error {
 
 	mca := nod.Begin("matching content...")
 	defer mca.End()
@@ -30,7 +30,7 @@ func MatchContent() error {
 		return mca.EndWithError(err)
 	}
 
-	sources, err := loadSources()
+	sources, err := data.LoadSources()
 	if err != nil {
 		return mca.EndWithError(err)
 	}
@@ -42,10 +42,20 @@ func MatchContent() error {
 
 	errors := make(map[string][]string)
 
-	for _, src := range sources {
-		errors[src.Id] = make([]string, 0)
+	var ids []string
+	if since > 0 {
+		ids = localKv.ModifiedAfter(since, false)
+	} else {
+		ids = data.SourcesIds(sources...)
+	}
+
+	for _, id := range ids {
+
+		src := data.SourceById(id, sources...)
+
+		errors[id] = make([]string, 0)
 		if err := matchSource(src, localKv, matchedKv); err != nil {
-			errors[src.Id] = []string{err.Error()}
+			errors[id] = []string{err.Error()}
 			continue
 		}
 	}

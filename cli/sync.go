@@ -1,6 +1,9 @@
 package cli
 
-import "net/url"
+import (
+	"net/url"
+	"time"
+)
 
 func SyncHandler(_ *url.URL) error {
 	return Sync()
@@ -8,15 +11,17 @@ func SyncHandler(_ *url.URL) error {
 
 func Sync() error {
 
+	syncStart := time.Now().Unix()
+
 	if err := GetContent(); err != nil {
 		return err
 	}
 
-	if err := MatchContent(); err != nil {
+	if err := MatchContent(syncStart); err != nil {
 		return err
 	}
 
-	if err := ReduceContent(); err != nil {
+	if err := ReduceContent(syncStart); err != nil {
 		return err
 	}
 

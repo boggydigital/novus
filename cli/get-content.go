@@ -23,7 +23,7 @@ func GetContent() error {
 		return err
 	}
 
-	sources, err := loadSources()
+	sources, err := data.LoadSources()
 	if err != nil {
 		return err
 	}
