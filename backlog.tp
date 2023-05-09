@@ -6,7 +6,7 @@ Improve sync performance:
 	
 REST endpoints:
 	- /sources
-	- fix href="/..." links to use original URL
+	- fix href="/..." links to use original URL @done(2023-05-08)
 	
 Allow adding recipes: @done(2023-05-08)
 	- refactor recipes into a wits file and embed @done(2023-05-08)

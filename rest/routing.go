@@ -8,7 +8,8 @@ import (
 
 func HandleFuncs() {
 	patternHandlers := map[string]http.Handler{
-		"/atom": middleware.GetMethodOnly(nod.RequestLog(http.HandlerFunc(GetAtom))),
+		"/atom":    middleware.GetMethodOnly(nod.RequestLog(http.HandlerFunc(GetAtom))),
+		"/sources": middleware.GetMethodOnly(nod.RequestLog(http.HandlerFunc(GetSources))),
 	}
 
 	for p, h := range patternHandlers {
