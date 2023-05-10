@@ -16,4 +16,8 @@ require (
 	golang.org/x/net v0.9.0
 )
 
-require github.com/boggydigital/coost v0.3.8 // indirect
+require (
+	github.com/boggydigital/coost v0.3.8 // indirect
+	github.com/boggydigital/issa v0.1.5 // indirect
+	github.com/boggydigital/stencil v0.1.62 // indirect
+)

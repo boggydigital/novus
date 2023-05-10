@@ -2,17 +2,25 @@ package main
 
 import (
 	"bytes"
+	"embed"
 	_ "embed"
 	"github.com/boggydigital/clo"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/wits"
 	"github.com/boggydigitl/novus/cli"
 	"github.com/boggydigitl/novus/data"
+	"github.com/boggydigitl/novus/rest"
 	"os"
 	"path/filepath"
+	"sync"
 )
 
 var (
+	once = sync.Once{}
+	//go:embed "templates/*.gohtml"
+	templates embed.FS
+	//go:embed "stencil_app/styles/css.gohtml"
+	stencilAppStyles embed.FS
 	//go:embed "cli-commands.txt"
 	cliCommands []byte
 	//go:embed "cli-help.txt"
@@ -35,6 +43,13 @@ func main() {
 
 	ns := nod.Begin("novus is checking for any news")
 	defer ns.End()
+
+	once.Do(func() {
+		if err := rest.Init(templates, stencilAppStyles); err != nil {
+			_ = ns.EndWithError(err)
+			os.Exit(1)
+		}
+	})
 
 	if err := readUserDirectories(); err != nil {
 		_ = ns.EndWithError(err)

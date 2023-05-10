@@ -1,21 +1,20 @@
-Improve sync performance:
-	- use "If-Modified-Since" when requesting content
-		- should also make standard for vangogh/fedorov
-	- use kvas.GetSet for concurrent downloads @done(2023-05-08)
-	- only consider content modified since sync start for reduction and diffing @done(2023-05-08)
-	
-REST endpoints:
-	- /sources
-		- use templates for all HTML output
-		- add CSP header to disable script
-		- add standard styles
-		- rewrite URLs
-	- fix href="/..." links to use original URL @done(2023-05-08)
-	
-Allow adding recipes: @done(2023-05-08)
-	- refactor recipes into a wits file and embed @done(2023-05-08)
-
 Archive:
+	Improve sync performance: @done(2023-05-09)
+		- use "If-Modified-Since" when requesting content @done(2023-05-09)
+			- should also make standard for vangogh/fedorov @done(2023-05-09)
+		- use kvas.GetSet for concurrent downloads @done(2023-05-08)
+		- only consider content modified since sync start for reduction and diffing @done(2023-05-08)
+		
+	REST endpoints: @done(2023-05-09)
+		- /sources @done(2023-05-09)
+			- use templates for all HTML output @done(2023-05-09)
+			- add CSP header to disable script @done(2023-05-09)
+			- add standard styles @done(2023-05-09)
+			- rewrite URLs @done(2023-05-09)
+		- fix href="/..." links to use original URL @done(2023-05-08)
+		
+	Allow adding recipes: @done(2023-05-08)
+		- refactor recipes into a wits file and embed @done(2023-05-08)
 	Add test cmd: @done(2023-05-06)
 		- allow specifying sources @done(2023-05-06)
 		- get-news @done(2023-05-06)

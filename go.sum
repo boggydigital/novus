@@ -8,6 +8,8 @@ github.com/boggydigital/dolo v0.2.9 h1:hYgBkYvuP4SZGVW8kwc17qPTm6D9R4qWT1X7PqJUg
 github.com/boggydigital/dolo v0.2.9/go.mod h1:KyIaQOp2cV85hC6lTMRwHtzofzjxXr+msOgcs89t078=
 github.com/boggydigital/dolo v0.2.10 h1:QNv4DTF/hvzXXBs6UkFBEVf80KF6xKnbqfDEBvwzoGM=
 github.com/boggydigital/dolo v0.2.10/go.mod h1:KyIaQOp2cV85hC6lTMRwHtzofzjxXr+msOgcs89t078=
+github.com/boggydigital/issa v0.1.5 h1:3thLinhaXNHYcmF3T5y3wOEvhxq+GyhW8WtNDcl0OC0=
+github.com/boggydigital/issa v0.1.5/go.mod h1:evu3blQmQe6xJy9NRFJGIU+91IWy4/YCROVvUZi5k14=
 github.com/boggydigital/kvas v0.3.27 h1:9Oczfp5GFkAsZqLyiIsEp/0cCVfTXA6V6/3MEAw+zyw=
 github.com/boggydigital/kvas v0.3.27/go.mod h1:I+wVKLxOqWhzw0X8nez/ec/GVXcQY5GUksFJBx+G7Yc=
 github.com/boggydigital/kvas_dolo v0.1.5 h1:OeM3eWPGQfsx+qMr4rVtpfYhF67CK1wNzcYIzstx8NA=
@@ -18,6 +20,8 @@ github.com/boggydigital/middleware v0.1.8 h1:2k7BEEynjp/hXZ2MO5CsAQyEpDl1LaoLS1M
 github.com/boggydigital/middleware v0.1.8/go.mod h1:pU6ig6HG7HpwZtUatAy0Hp/H7bfllI5cZhZQOy2NIME=
 github.com/boggydigital/nod v0.1.20 h1:6cyK3fDxAUcDC9s+2JLNNHJKuCCObQbabpmJfpXCSfA=
 github.com/boggydigital/nod v0.1.20/go.mod h1:rghsJhj0wC5UL7qT8W3vSUc1MlE5IyheYjfAKIZ9kLQ=
+github.com/boggydigital/stencil v0.1.62 h1:bRVnjmmLa8nWvX2E4YCNndUWHFUv6jSC7yLE4MJCMCs=
+github.com/boggydigital/stencil v0.1.62/go.mod h1:A3cjsQrgD7pynWlnAZgGyPjTi2ivoZ3GpXK8VcbJVd8=
 github.com/boggydigital/testo v0.1.7 h1:Sa5GIAwCyQNeGGXi8XgVpIpLQqWVeqBKQRcv0gkL098=
 github.com/boggydigital/wits v0.2.3 h1:Z0eB+QlIA18fJmblyV6ZJQ/swPYSFhOxfgMXOQz4/c8=
 github.com/boggydigital/wits v0.2.3/go.mod h1:aR/z0vfMLtg0b4hcts0qiSTZcA51O8A2N3U9laqd2Lc=

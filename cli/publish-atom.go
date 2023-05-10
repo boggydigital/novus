@@ -6,6 +6,7 @@ import (
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigitl/novus/data"
+	"github.com/boggydigitl/novus/rest"
 	"net/url"
 	"os"
 	"strings"
@@ -55,19 +56,17 @@ func PublishAtom() error {
 	for id := range ks {
 		host := ""
 		if su, ok := rdx.GetFirstVal(data.SourceURLProperty, id); ok {
-			if u, err := url.Parse(su); err == nil {
-				host = u.Scheme + "://" + u.Host
-			}
+			host = rest.Host(su)
 		}
 
 		if added, ok := rdx.GetAllUnchangedValues(data.AddedElementsProperty, id); ok {
 			for _, entry := range added {
-				additions[id] = append(additions[id], absHref(entry, host))
+				additions[id] = append(additions[id], rest.AbsHref(entry, host))
 			}
 		}
 		if removed, ok := rdx.GetAllUnchangedValues(data.RemovedElementsProperty, id); ok {
 			for _, entry := range removed {
-				removals[id] = append(removals[id], absHref(entry, host))
+				removals[id] = append(removals[id], rest.AbsHref(entry, host))
 			}
 		}
 		if mces, ok := rdx.GetAllUnchangedValues(data.MatchContentErrorsProperty, id); ok {
@@ -111,13 +110,6 @@ func keys(rdx kvas.ReduxAssets, properties ...string) map[string]interface{} {
 		}
 	}
 	return ks
-}
-
-func absHref(element, host string) string {
-	if host == "" {
-		return element
-	}
-	return strings.Replace(element, "href=\"/", "href=\""+host+"/", -1)
 }
 
 func changelogContent(add, rem, mces, res map[string][]string, n int) string {

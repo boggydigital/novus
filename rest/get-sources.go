@@ -4,7 +4,7 @@ import (
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigitl/novus/data"
-	"io"
+	"github.com/boggydigitl/novus/stencil_app"
 	"net/http"
 	"sort"
 	"strings"
@@ -14,7 +14,9 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 
 	// GET /sources
 
-	rdx, err := kvas.ConnectRedux(data.AbsReduxDir(), data.CurrentElementsProperty)
+	rdx, err := kvas.ConnectReduxAssets(data.AbsReduxDir(), nil,
+		data.CurrentElementsProperty,
+		data.SourceURLProperty)
 	if err != nil {
 		http.Error(w, nod.Error(err).Error(), http.StatusInternalServerError)
 		return
@@ -32,17 +34,21 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 	sort.Strings(ids)
 
 	for _, id := range ids {
+		host := ""
+		if su, ok := rdx.GetFirstVal(data.SourceURLProperty, id); ok {
+			host = Host(su)
+		}
 
 		src := data.SourceById(id, sources...)
 
 		sb.WriteString("<details>")
 		sb.WriteString("<summary>" + src.Id + "</summary>")
-		sb.WriteString("<a href='" + src.URL.String() + "'>URL</a>")
+		sb.WriteString("<a href='" + src.URL.String() + "'>Source Link</a>")
 
-		if currentElements, ok := rdx.GetAllValues(src.Id); ok {
+		if currentElements, ok := rdx.GetAllUnchangedValues(data.CurrentElementsProperty, src.Id); ok {
 			sb.WriteString("<ul>")
 			for _, ce := range currentElements {
-				sb.WriteString("<li>" + ce + "</li>")
+				sb.WriteString("<li>" + AbsHref(ce, host) + "</li>")
 			}
 			sb.WriteString("</ul>")
 		}
@@ -50,9 +56,9 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 		sb.WriteString("</details>")
 	}
 
-	w.Header().Set("Content-Type", "text/html")
+	DefaultHeaders(w)
 
-	if _, err := io.Copy(w, strings.NewReader(sb.String())); err != nil {
+	if err := app.RenderPage("", stencil_app.NavSources, sb.String(), w); err != nil {
 		http.Error(w, nod.Error(err).Error(), http.StatusInternalServerError)
 		return
 	}

@@ -1,0 +1,23 @@
+{{define "app-css"}}
+    <style id="novus-styles">
+        details {
+            margin: var(--normal) var(--large)
+        }
+
+        details > summary {
+            cursor: pointer;
+            font-size: var(--fs-larger)
+        }
+
+        details a {
+            text-decoration: none;
+            color: var(--system-blue-color)
+        }
+
+        details > a {
+            font-weight: bold;
+            display: block;
+            margin: var(--normal)
+        }
+    </style>
+{{end}}
