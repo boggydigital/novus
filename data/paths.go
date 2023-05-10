@@ -9,6 +9,7 @@ const (
 	backupDirectory         = "backup"
 	sourcesFilename         = "sources.txt"
 	atomFilename            = "atom.xml"
+	cookiesFilename         = "cookies.txt"
 )
 
 var absRootDir string
@@ -31,6 +32,10 @@ func AbsSourcePath() string {
 
 func AbsAtomPath() string {
 	return filepath.Join(absRootDir, atomFilename)
+}
+
+func AbsCookiesPath() string {
+	return filepath.Join(absRootDir, cookiesFilename)
 }
 
 func AbsLocalContentDir() string {
