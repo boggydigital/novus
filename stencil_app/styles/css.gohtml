@@ -1,5 +1,27 @@
 {{define "app-css"}}
     <style id="novus-styles">
+        section {
+            padding: var(--large) 0;
+            display: grid;
+            grid-template-columns: repeat(2, 375px);
+            grid-column-gap: var(--normal);
+            grid-row-gap: var(--normal);
+            justify-content: center;
+        }
+
+        @media only screen and (min-width: 1200px) {
+            section {
+                grid-template-columns: repeat(3, 375px);
+            }
+        }
+
+        @media only screen and (max-width: 800px) {
+            section {
+                grid-template-columns: 1fr;
+                justify-content: start;
+            }
+        }
+
         details {
             margin: var(--normal) var(--large)
         }
@@ -15,8 +37,12 @@
         }
 
         details > a {
+            color: var(--background-color);
+            background: var(--system-blue-color);
             font-weight: bold;
-            display: block;
+            display: inline-block;
+            border-radius: var(--border-radius);
+            padding: var(--small) var(--normal);
             margin: var(--normal)
         }
     </style>

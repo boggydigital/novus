@@ -33,6 +33,7 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 	ids := data.SourcesIds(sources...)
 	sort.Strings(ids)
 
+	sb.WriteString("<section>")
 	for _, id := range ids {
 		host := ""
 		if su, ok := rdx.GetFirstVal(data.SourceURLProperty, id); ok {
@@ -55,6 +56,7 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 
 		sb.WriteString("</details>")
 	}
+	sb.WriteString("</section>")
 
 	DefaultHeaders(w)
 
