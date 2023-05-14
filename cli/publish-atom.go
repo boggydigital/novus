@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"fmt"
 	"github.com/boggydigital/atomus"
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
@@ -17,6 +16,14 @@ const (
 	atomEntryTitle  = "Sync results"
 	atomEntryAuthor = "Contemporalis"
 )
+
+type Changelog struct {
+	NumSources          int
+	Added               map[string][]string
+	Removed             map[string][]string
+	MatchContentErrors  map[string][]string
+	ReduceContentErrors map[string][]string
+}
 
 func PublishAtomHandler(u *url.URL) error {
 	return PublishAtom()
@@ -83,9 +90,24 @@ func PublishAtom() error {
 		paa.Increment()
 	}
 
+	src, err := data.LoadSources()
+	if err != nil {
+		return paa.EndWithError(err)
+	}
+
 	af := atomus.NewFeed(atomFeedTitle, "")
-	content := changelogContent(additions, removals, matchContentErrors, reduceErrors, len(ks))
-	af.SetEntry(atomEntryTitle, atomEntryAuthor, content)
+	sb := &strings.Builder{}
+	cl := &Changelog{
+		NumSources:          len(src),
+		Added:               additions,
+		Removed:             removals,
+		MatchContentErrors:  matchContentErrors,
+		ReduceContentErrors: reduceErrors,
+	}
+	if err := tmpl.ExecuteTemplate(sb, "atom", cl); err != nil {
+		return paa.EndWithError(err)
+	}
+	af.SetEntry(atomEntryTitle, atomEntryAuthor, sb.String())
 
 	atomFile, err := os.Create(data.AbsAtomPath())
 	if err != nil {
@@ -110,63 +132,4 @@ func keys(rdx kvas.ReduxAssets, properties ...string) map[string]interface{} {
 		}
 	}
 	return ks
-}
-
-func changelogContent(add, rem, mces, res map[string][]string, n int) string {
-	sb := &strings.Builder{}
-
-	if len(add) > 0 {
-		sb.WriteString("<h1>Added</h1>")
-		for id, entries := range add {
-			sb.WriteString("<h2>" + id + "</h2>")
-			sb.WriteString("<ul>")
-			for _, entry := range entries {
-				sb.WriteString("<li>" + entry + "</li>")
-			}
-			sb.WriteString("</ul>")
-		}
-	}
-
-	if len(rem) > 0 {
-		sb.WriteString("<h1>Removed</h1>")
-		for id, entries := range rem {
-			sb.WriteString("<h2>" + id + "</h2>")
-			sb.WriteString("<ul>")
-			for _, entry := range entries {
-				sb.WriteString("<li>" + entry + "</li>")
-			}
-			sb.WriteString("</ul>")
-		}
-	}
-
-	if len(add) == 0 && len(rem) == 0 {
-		sb.WriteString("<h1>No new changes since the last sync</h1>")
-		sb.WriteString(fmt.Sprintf("<div>%d source(s) have been checked</div>", n))
-	}
-
-	if len(mces) > 0 {
-		sb.WriteString("<h1>match-content errors</h1>")
-		for id, errors := range mces {
-			sb.WriteString("<em>" + id + "</em>")
-			sb.WriteString("<ul>")
-			for _, err := range errors {
-				sb.WriteString("<li>" + err + "</li>")
-			}
-			sb.WriteString("</ul>")
-		}
-	}
-
-	if len(res) > 0 {
-		sb.WriteString("<h1>reduce errors</h1>")
-		for id, errors := range res {
-			sb.WriteString("<em>" + id + "</em>")
-			sb.WriteString("<ul>")
-			for _, err := range errors {
-				sb.WriteString("<li>" + err + "</li>")
-			}
-			sb.WriteString("</ul>")
-		}
-	}
-
-	return sb.String()
 }

@@ -5,10 +5,18 @@ import (
 	"github.com/boggydigital/nod"
 	"github.com/boggydigitl/novus/data"
 	"github.com/boggydigitl/novus/stencil_app"
+	"html/template"
 	"net/http"
 	"sort"
 	"strings"
 )
+
+type Sources struct {
+	Ids             []string
+	Hosts           map[string]string
+	URLs            map[string]string
+	CurrentElements map[string][]template.HTML
+}
 
 func GetSources(w http.ResponseWriter, r *http.Request) {
 
@@ -22,7 +30,7 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sb := strings.Builder{}
+	sb := &strings.Builder{}
 
 	sources, err := data.LoadSources()
 	if err != nil {
@@ -33,30 +41,32 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 	ids := data.SourcesIds(sources...)
 	sort.Strings(ids)
 
-	sb.WriteString("<section>")
+	svm := &Sources{
+		Ids:             ids,
+		Hosts:           make(map[string]string),
+		URLs:            make(map[string]string),
+		CurrentElements: make(map[string][]template.HTML),
+	}
+
 	for _, id := range ids {
-		host := ""
 		if su, ok := rdx.GetFirstVal(data.SourceURLProperty, id); ok {
-			host = Host(su)
+			svm.Hosts[id] = Host(su)
 		}
 
 		src := data.SourceById(id, sources...)
-
-		sb.WriteString("<details>")
-		sb.WriteString("<summary>" + src.Id + "</summary>")
-		sb.WriteString("<a href='" + src.URL.String() + "'>Source Link</a>")
+		svm.URLs[id] = src.URL.String()
 
 		if currentElements, ok := rdx.GetAllUnchangedValues(data.CurrentElementsProperty, src.Id); ok {
-			sb.WriteString("<ul>")
 			for _, ce := range currentElements {
-				sb.WriteString("<li>" + AbsHref(ce, host) + "</li>")
+				svm.CurrentElements[id] = append(svm.CurrentElements[id], template.HTML(AbsHref(ce, svm.Hosts[id])))
 			}
-			sb.WriteString("</ul>")
 		}
-
-		sb.WriteString("</details>")
 	}
-	sb.WriteString("</section>")
+
+	if err := tmpl.ExecuteTemplate(sb, "sources", svm); err != nil {
+		http.Error(w, nod.Error(err).Error(), http.StatusInternalServerError)
+		return
+	}
 
 	DefaultHeaders(w)
 

@@ -1,0 +1,19 @@
+{{define "sources"}}
+    <section id="sources">
+        {{$currentElements := .CurrentElements}}
+        {{$urls := .URLs}}
+        {{range $id := .Ids}}
+            <details>
+                <summary>{{$id}}</summary>
+                {{$url := index $urls $id}}
+                <a href='{{$url}}'>Source Link</a>
+                <ul>
+                    {{$ces := index $currentElements $id}}
+                    {{range $ce := $ces}}
+                        <li>{{$ce}}</li>
+                    {{end}}
+                </ul>
+            </details>
+        {{end}}
+    </section>
+{{end}}

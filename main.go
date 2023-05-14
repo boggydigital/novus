@@ -10,6 +10,7 @@ import (
 	"github.com/boggydigitl/novus/cli"
 	"github.com/boggydigitl/novus/data"
 	"github.com/boggydigitl/novus/rest"
+	"html/template"
 	"os"
 	"path/filepath"
 	"sync"
@@ -26,6 +27,10 @@ var (
 	//go:embed "cli-help.txt"
 	cliHelp []byte
 )
+
+var tmplFuncs = template.FuncMap{
+	"empty": empty,
+}
 
 const (
 	directoriesFilename = "directories.txt"
@@ -45,10 +50,11 @@ func main() {
 	defer ns.End()
 
 	once.Do(func() {
-		if err := rest.Init(templates, stencilAppStyles); err != nil {
+		if err := rest.Init(templates, tmplFuncs, stencilAppStyles); err != nil {
 			_ = ns.EndWithError(err)
 			os.Exit(1)
 		}
+		cli.Init(templates, tmplFuncs)
 	})
 
 	if err := readUserDirectories(); err != nil {
@@ -148,4 +154,13 @@ func readUserDirectories() error {
 	}
 
 	return nil
+}
+
+func empty(maps ...map[string][]string) bool {
+	for _, m := range maps {
+		if len(m) > 0 {
+			return false
+		}
+	}
+	return true
 }
