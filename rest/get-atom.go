@@ -7,7 +7,6 @@ import (
 	"github.com/boggydigitl/novus/data"
 	"net/http"
 	"os"
-	"time"
 )
 
 func GetAtom(w http.ResponseWriter, r *http.Request) {
@@ -16,10 +15,10 @@ func GetAtom(w http.ResponseWriter, r *http.Request) {
 
 	absAtomFeedPath := data.AbsAtomPath()
 	if stat, err := os.Stat(absAtomFeedPath); err == nil {
-
-		w.Header().Set(middleware.LastModifiedHeader, stat.ModTime().Format(time.RFC1123))
+		lm := stat.ModTime().Format(http.TimeFormat)
+		w.Header().Set(middleware.LastModifiedHeader, lm)
 		ims := r.Header.Get(middleware.IfModifiedSinceHeader)
-		if middleware.IsNotModified(ims, stat.ModTime().Unix()) {
+		if middleware.IsNotModified(ims, lm) {
 			w.WriteHeader(http.StatusNotModified)
 			return
 		}
