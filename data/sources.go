@@ -33,7 +33,7 @@ func LoadSources() ([]*Source, error) {
 		sources = append(sources, src)
 	}
 
-	return sources, nil
+	return sources, validSources(sources...)
 }
 
 func SourcesIds(src ...*Source) []string {
@@ -48,6 +48,15 @@ func SourceById(id string, src ...*Source) *Source {
 	for _, s := range src {
 		if s.Id == id {
 			return s
+		}
+	}
+	return nil
+}
+
+func validSources(src ...*Source) error {
+	for _, s := range src {
+		if err := s.IsValid(); err != nil {
+			return err
 		}
 	}
 	return nil
