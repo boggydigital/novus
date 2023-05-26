@@ -1,20 +1,20 @@
 wikipedia-en-table-studio-albums
     container-selector=table.wikitable
-	text-content=List of studio albums
-	elements-selector=tr
-	element-reduction-selector=i
+    text-content=List of studio albums
+    elements-selector=tr
+    element-reduction-selector=i
 wikipedia-ja-table-studio-albums
     container-selector=table.wikitable
-	elements-selector=tr
-	element-reduction-selector=b
+    elements-selector=tr
+    element-reduction-selector=b
 wikipedia-unordered-list
     container-selector=ul
-	elements-selector=li
-	element-reduction-selector=i
+    elements-selector=li
+    element-reduction-selector=i
 bandcamp-discography-music
     container-selector=ol#music-grid
-	elements-selector=li.music-grid-item
-	element-reduction-selector=p.title
+    elements-selector=li.music-grid-item
+    element-reduction-selector=p.title
 litres-author-books
     container-selector=div.person-page-list__content
     elements-selector=div.arts_by_alphabet_item
