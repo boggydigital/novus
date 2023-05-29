@@ -15,7 +15,7 @@ func GetAtom(w http.ResponseWriter, r *http.Request) {
 
 	absAtomFeedPath := data.AbsAtomPath()
 	if stat, err := os.Stat(absAtomFeedPath); err == nil {
-		lm := stat.ModTime().Format(http.TimeFormat)
+		lm := stat.ModTime().UTC().Format(http.TimeFormat)
 		w.Header().Set(middleware.LastModifiedHeader, lm)
 		ims := r.Header.Get(middleware.IfModifiedSinceHeader)
 		if middleware.IsNotModified(ims, lm) {
