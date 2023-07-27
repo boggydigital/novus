@@ -7,7 +7,6 @@ import (
 )
 
 type QuerySelectors struct {
-	Encoding                 string
 	ContainerSelector        string
 	TextContent              string
 	ElementsSelector         string
@@ -19,8 +18,6 @@ func NewQuerySelectors(kv wits.KeyValue) *QuerySelectors {
 
 	for k, v := range kv {
 		switch k {
-		case Encoding:
-			qs.Encoding = v
 		case ContainerSelector:
 			qs.ContainerSelector = v
 		case TextContent:

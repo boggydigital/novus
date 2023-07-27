@@ -17,10 +17,11 @@ const (
 )
 
 type Source struct {
-	Id     string
-	URL    *url.URL
-	Recipe string
-	Query  *QuerySelectors
+	Id       string
+	URL      *url.URL
+	Recipe   string
+	Encoding string
+	Query    *QuerySelectors
 }
 
 func newSource(id string, kv wits.KeyValue, recipes wits.SectionKeyValue) (*Source, error) {
@@ -36,6 +37,8 @@ func newSource(id string, kv wits.KeyValue, recipes wits.SectionKeyValue) (*Sour
 			} else {
 				src.URL = u
 			}
+		case Encoding:
+			src.Encoding = v
 		case Recipe:
 			src.Recipe = v
 		case ContainerSelector:

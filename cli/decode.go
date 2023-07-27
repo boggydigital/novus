@@ -34,11 +34,11 @@ func Decode() error {
 
 	for _, src := range sources {
 
-		if src.Query.Encoding == "" {
+		if src.Encoding == "" {
 			continue
 		}
 
-		if err := decodeContent(kv, src.Id, src.Query.Encoding); err != nil {
+		if err := decodeContent(kv, src.Id, src.Encoding); err != nil {
 			return dca.EndWithError(err)
 		}
 
