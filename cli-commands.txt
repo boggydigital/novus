@@ -6,6 +6,8 @@
 # {} - placeholder values
 # {^} - placeholder values, first value is default
 
+decode
+
 diff
 
 get-content

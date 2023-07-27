@@ -20,4 +20,5 @@ require (
 	github.com/boggydigital/coost v0.3.8 // indirect
 	github.com/boggydigital/issa v0.1.5 // indirect
 	github.com/boggydigital/stencil v0.1.62 // indirect
+	golang.org/x/text v0.11.0 // indirect
 )

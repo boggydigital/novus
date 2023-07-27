@@ -23,6 +23,10 @@ func Test(resetErrors bool) error {
 		return ta.EndWithError(err)
 	}
 
+	if err := Decode(); err != nil {
+		return ta.EndWithError(err)
+	}
+
 	if err := MatchContent(0); err != nil {
 		return ta.EndWithError(err)
 	}

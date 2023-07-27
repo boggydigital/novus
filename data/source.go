@@ -9,6 +9,7 @@ import (
 const (
 	URL                      = "url"
 	Recipe                   = "recipe"
+	Encoding                 = "encoding"
 	ContainerSelector        = "container-selector"
 	TextContent              = "text-content"
 	ElementsSelector         = "elements-selector"

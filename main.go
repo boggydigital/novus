@@ -101,6 +101,7 @@ func main() {
 	}
 
 	clo.HandleFuncs(map[string]clo.Handler{
+		"decode":        cli.DecodeHandler,
 		"diff":          cli.DiffHandler,
 		"get-content":   cli.GetContentHandler,
 		"match-content": cli.MatchContentHandler,

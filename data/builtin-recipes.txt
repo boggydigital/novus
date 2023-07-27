@@ -19,3 +19,9 @@ litres-author-books
     container-selector=div.person-page-list__content
     elements-selector=div.arts_by_alphabet_item
     element-reduction-selector=div.art_name_container
+kino-teatr-works
+    encoding=win1251
+    container-selector=div.page_content_block
+    text-content=фильмография
+    elements-selector=div.film_name
+    element-reduction-selector=a

@@ -76,6 +76,7 @@ func matchSource(src *data.Source, localKv, matchedKv kvas.KeyValuesEditor) erro
 	if err != nil {
 		return err
 	}
+	defer localContent.Close()
 
 	doc, err := html.Parse(localContent)
 	if err != nil {

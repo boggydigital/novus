@@ -17,6 +17,10 @@ func Sync() error {
 		return err
 	}
 
+	if err := Decode(); err != nil {
+		return err
+	}
+
 	if err := MatchContent(syncStart); err != nil {
 		return err
 	}
