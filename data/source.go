@@ -10,6 +10,8 @@ const (
 	URL                      = "url"
 	Recipe                   = "recipe"
 	Encoding                 = "encoding"
+	Title                    = "title"
+	Category                 = "category"
 	ContainerSelector        = "container-selector"
 	TextContent              = "text-content"
 	ElementsSelector         = "elements-selector"
@@ -21,6 +23,8 @@ type Source struct {
 	URL      *url.URL
 	Recipe   string
 	Encoding string
+	Title    string
+	Category string
 	Query    *QuerySelectors
 }
 
@@ -39,6 +43,10 @@ func newSource(id string, kv wits.KeyValue, recipes wits.SectionKeyValue) (*Sour
 			}
 		case Encoding:
 			src.Encoding = v
+		case Title:
+			src.Title = v
+		case Category:
+			src.Category = v
 		case Recipe:
 			src.Recipe = v
 		case ContainerSelector:

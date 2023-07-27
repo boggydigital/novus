@@ -13,6 +13,8 @@ import (
 
 type Sources struct {
 	Ids             []string
+	Titles          map[string]string
+	Categories      map[string]string
 	Hosts           map[string]string
 	URLs            map[string]string
 	CurrentElements map[string][]template.HTML
@@ -43,6 +45,8 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 
 	svm := &Sources{
 		Ids:             ids,
+		Titles:          make(map[string]string),
+		Categories:      make(map[string]string),
 		Hosts:           make(map[string]string),
 		URLs:            make(map[string]string),
 		CurrentElements: make(map[string][]template.HTML),
@@ -55,6 +59,8 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 
 		src := data.SourceById(id, sources...)
 		svm.URLs[id] = src.URL.String()
+		svm.Titles[id] = src.Title
+		svm.Categories[id] = src.Category
 
 		if currentElements, ok := rdx.GetAllUnchangedValues(data.CurrentElementsProperty, src.Id); ok {
 			for _, ce := range currentElements {

@@ -2,9 +2,18 @@
     <section id="sources">
         {{$currentElements := .CurrentElements}}
         {{$urls := .URLs}}
+        {{$titles := .Titles}}
+        {{$categories := .Categories}}
         {{range $id := .Ids}}
             <details>
-                <summary>{{$id}}</summary>
+                {{$title := index $titles $id}}
+                {{$category := index $categories $id}}
+                <summary>
+                    <span>
+                        <span>{{$title}}</span>
+                        <span class="category {{$category}}">{{$category}}</span>
+                    </span>
+                </summary>
                 {{$url := index $urls $id}}
                 <a href='{{$url}}'>Source Link</a>
                 <ul>

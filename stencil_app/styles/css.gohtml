@@ -1,19 +1,80 @@
 {{define "app-css"}}
     <style id="novus-styles">
         section {
-            padding: var(--large) 0;
-            display: flex;
+            padding: var(--large) var(--small);
+            display: grid;
+            grid-template-columns: repeat(2, 375px);
             flex-direction: column;
             justify-content: center;
         }
 
+        @media only screen and (min-width: 1200px) {
+            section {
+                grid-template-columns: repeat(3, 375px);
+            }
+        }
+
+        @media only screen and (max-width: 800px) {
+            section {
+                grid-template-columns: 1fr;
+                justify-content: start;
+            }
+        }
+
         details {
             margin: var(--normal) var(--large)
+
         }
 
         details > summary {
             cursor: pointer;
-            font-size: var(--fs-x-larger)
+            font-size: var(--fs-x-larger);
+        }
+
+        details > summary > span {
+            display: flex;
+            flex-direction: column;
+        }
+
+        details > summary > span > span.category {
+            width: max-content;
+            background: var(--highlight-color);
+            margin-block-start: var(--small);
+            padding: var(--x-small) var(--small);
+            border-radius: var(--border-radius-large);
+            font-size: var(--fs-xx-smaller);
+        }
+
+        details > summary > span > span.category.Studio.Albums,
+        details > summary > span > span.category.Collaborative.Albums,
+        details > summary > span > span.category.Soundtrack.Albums {
+            background: var(--system-orange-color);
+            color: var(--background-color);
+        }
+
+        details > summary > span > span.category.Bandcamp.Releases {
+            background: var(--system-teal-color);
+            color: var(--background-color);
+        }
+
+        details > summary > span > span.category.Bibliography,
+        details > summary > span > span.category.Book.Series {
+            background: var(--system-red-color);
+        }
+
+        details > summary > span > span.category.Filmography {
+            background: var(--system-green-color);
+            color: var(--background-color);
+        }
+
+        details > summary > span > span.category.Software.Releases {
+            background: var(--system-gray-color);
+            color: var(--background-color);
+        }
+
+        details > summary > span > span.category.Awards {
+            background: var(--system-purple-color);
+            color: var(--background-color);
         }
 
         details a {
