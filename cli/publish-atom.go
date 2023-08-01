@@ -26,10 +26,11 @@ type Changelog struct {
 }
 
 func PublishAtomHandler(u *url.URL) error {
-	return PublishAtom()
+	novusUrl := u.Query().Get("novus-url")
+	return PublishAtom(novusUrl)
 }
 
-func PublishAtom() error {
+func PublishAtom(novusUrl string) error {
 
 	paa := nod.NewProgress("publishing atom...")
 	defer paa.End()
@@ -95,7 +96,7 @@ func PublishAtom() error {
 		return paa.EndWithError(err)
 	}
 
-	af := atomus.NewFeed(atomFeedTitle, "")
+	af := atomus.NewFeed(atomFeedTitle, novusUrl)
 	sb := &strings.Builder{}
 	cl := &Changelog{
 		NumSources:          len(src),
@@ -107,7 +108,7 @@ func PublishAtom() error {
 	if err := tmpl.ExecuteTemplate(sb, "atom", cl); err != nil {
 		return paa.EndWithError(err)
 	}
-	af.SetEntry(atomEntryTitle, atomEntryAuthor, sb.String())
+	af.SetEntry(atomEntryTitle, atomEntryAuthor, novusUrl, sb.String())
 
 	atomFile, err := os.Create(data.AbsAtomPath())
 	if err != nil {

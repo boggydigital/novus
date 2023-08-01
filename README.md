@@ -13,6 +13,9 @@ services:
   novus:
     container_name: novus
     image: ghcr.io/arelate/novus:latest
+  environment:
+      # - NV_PUBLISH_NOVUS-URL=http://NOVUS-ADDRESS
+      # - NV_SYNC_NOVUS-URL=http://NOVUS-ADDRESS
     volumes:
       # app logs
       - /docker/novus/logs:/var/log/novus

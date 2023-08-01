@@ -5,11 +5,12 @@ import (
 	"time"
 )
 
-func SyncHandler(_ *url.URL) error {
-	return Sync()
+func SyncHandler(u *url.URL) error {
+	novusUrl := u.Query().Get("novus-url")
+	return Sync(novusUrl)
 }
 
-func Sync() error {
+func Sync(novusUrl string) error {
 
 	syncStart := time.Now().Unix()
 
@@ -33,7 +34,7 @@ func Sync() error {
 		return err
 	}
 
-	if err := PublishAtom(); err != nil {
+	if err := PublishAtom(novusUrl); err != nil {
 		return err
 	}
 

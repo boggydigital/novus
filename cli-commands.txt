@@ -15,6 +15,7 @@ get-content
 match-content
 
 publish-atom
+    novus-url$
 
 reduce
 
@@ -27,6 +28,7 @@ serve
     stderr$
 
 sync
+    novus-url$
 
 test
     reset-errors

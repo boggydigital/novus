@@ -1,7 +1,7 @@
 {{define "app-css"}}
     <style id="novus-styles">
         section {
-            padding: var(--large) var(--small);
+            padding: var(--large) var(--x-small);
             display: grid;
             grid-template-columns: repeat(2, 375px);
             flex-direction: column;
@@ -45,14 +45,16 @@
             font-size: var(--fs-xx-smaller);
         }
 
-        details > summary > span > span.category.Studio.Albums,
-        details > summary > span > span.category.Collaborative.Albums,
-        details > summary > span > span.category.Soundtrack.Albums {
+        details > summary > span > span.category.LPs,
+        details > summary > span > span.category.EPs,
+        details > summary > span > span.category.Collaborations,
+        details > summary > span > span.category.Soundtracks,
+        details > summary > span > span.category.Mixtapes {
             background: var(--system-orange-color);
             color: var(--background-color);
         }
 
-        details > summary > span > span.category.Bandcamp.Releases {
+        details > summary > span > span.category.Bandcamp {
             background: var(--system-teal-color);
             color: var(--background-color);
         }
@@ -60,6 +62,7 @@
         details > summary > span > span.category.Bibliography,
         details > summary > span > span.category.Book.Series {
             background: var(--system-red-color);
+            color: white;
         }
 
         details > summary > span > span.category.Filmography {
@@ -67,7 +70,7 @@
             color: var(--background-color);
         }
 
-        details > summary > span > span.category.Software.Releases {
+        details > summary > span > span.category.Software {
             background: var(--system-gray-color);
             color: var(--background-color);
         }

@@ -3,7 +3,7 @@ module github.com/boggydigitl/novus
 go 1.20
 
 require (
-	github.com/boggydigital/atomus v0.1.8
+	github.com/boggydigital/atomus v0.1.9
 	github.com/boggydigital/clo v0.3.1
 	github.com/boggydigital/dolo v0.2.10
 	github.com/boggydigital/kvas v0.3.27
