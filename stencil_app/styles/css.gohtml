@@ -2,23 +2,11 @@
     <style id="novus-styles">
         section {
             padding: var(--large) var(--x-small);
-            display: grid;
-            grid-template-columns: repeat(2, 375px);
-            flex-direction: column;
             justify-content: center;
         }
 
-        @media only screen and (min-width: 1200px) {
-            section {
-                grid-template-columns: repeat(3, 375px);
-            }
-        }
-
-        @media only screen and (max-width: 800px) {
-            section {
-                grid-template-columns: 1fr;
-                justify-content: start;
-            }
+        #sources-container {
+            container-type: inline-size;
         }
 
         details {

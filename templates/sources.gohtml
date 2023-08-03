@@ -1,5 +1,6 @@
 {{define "sources"}}
-    <section id="sources">
+    <section id="sources-container" >
+        <div id="sources" class="responsive-grid">
         {{$currentElements := .CurrentElements}}
         {{$urls := .URLs}}
         {{$titles := .Titles}}
@@ -24,5 +25,6 @@
                 </ul>
             </details>
         {{end}}
+        </div>
     </section>
 {{end}}
