@@ -12,7 +12,6 @@ import (
 	"github.com/boggydigitl/novus/rest"
 	"html/template"
 	"os"
-	"path/filepath"
 	"sync"
 )
 
@@ -34,7 +33,6 @@ var tmplFuncs = template.FuncMap{
 
 const (
 	directoriesFilename = "directories.txt"
-	settingsFilename    = "settings.txt"
 )
 
 var (
@@ -71,33 +69,6 @@ func main() {
 	if err != nil {
 		_ = ns.EndWithError(err)
 		os.Exit(1)
-	}
-
-	userDefaultsPath := filepath.Join(stateDir, settingsFilename)
-	if _, err := os.Stat(userDefaultsPath); err == nil {
-		udoFile, err := os.Open(userDefaultsPath)
-		if err != nil {
-			_ = ns.EndWithError(err)
-			os.Exit(1)
-		}
-		userDefaultsOverrides, err := wits.ReadKeyValues(udoFile)
-		if err != nil {
-			_ = ns.EndWithError(err)
-			os.Exit(1)
-		}
-		if err := defs.SetUserDefaults(userDefaultsOverrides); err != nil {
-			_ = ns.EndWithError(err)
-			os.Exit(1)
-		}
-	}
-
-	if defs.HasUserDefaultsFlag("debug") {
-		logger, err := nod.EnableFileLogger(logsDir)
-		if err != nil {
-			_ = ns.EndWithError(err)
-			os.Exit(1)
-		}
-		defer logger.Close()
 	}
 
 	clo.HandleFuncs(map[string]clo.Handler{
