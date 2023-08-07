@@ -24,7 +24,7 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 
 	// GET /sources
 
-	rdx, err := kvas.ConnectReduxAssets(data.AbsReduxDir(), nil,
+	rdx, err := kvas.ConnectReduxAssets(data.AbsReduxDir(),
 		data.CurrentElementsProperty,
 		data.SourceURLProperty)
 	if err != nil {
@@ -62,7 +62,7 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 		svm.Titles[id] = src.Title
 		svm.Categories[id] = src.Category
 
-		if currentElements, ok := rdx.GetAllUnchangedValues(data.CurrentElementsProperty, src.Id); ok {
+		if currentElements, ok := rdx.GetAllValues(data.CurrentElementsProperty, src.Id); ok {
 			for _, ce := range currentElements {
 				svm.CurrentElements[id] = append(svm.CurrentElements[id], template.HTML(AbsHref(ce, svm.Hosts[id])))
 			}

@@ -36,7 +36,7 @@ func Test(resetErrors bool) error {
 	}
 
 	rdx, err := kvas.ConnectReduxAssets(
-		data.AbsReduxDir(), nil,
+		data.AbsReduxDir(),
 		data.MatchContentErrorsProperty,
 		data.ReduceErrorsProperty)
 
@@ -49,7 +49,7 @@ func Test(resetErrors bool) error {
 
 	mces := make(map[string][]string)
 	for _, id := range rdx.Keys(data.MatchContentErrorsProperty) {
-		if errors, ok := rdx.GetAllUnchangedValues(data.MatchContentErrorsProperty, id); ok && len(errors) > 0 {
+		if errors, ok := rdx.GetAllValues(data.MatchContentErrorsProperty, id); ok && len(errors) > 0 {
 			mces[id] = errors
 		}
 	}
@@ -65,7 +65,7 @@ func Test(resetErrors bool) error {
 
 	res := make(map[string][]string)
 	for _, id := range rdx.Keys(data.ReduceErrorsProperty) {
-		if errors, ok := rdx.GetAllUnchangedValues(data.ReduceErrorsProperty, id); ok && len(errors) > 0 {
+		if errors, ok := rdx.GetAllValues(data.ReduceErrorsProperty, id); ok && len(errors) > 0 {
 			res[id] = errors
 		}
 	}

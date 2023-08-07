@@ -18,7 +18,7 @@ func Diff() error {
 	defer uca.End()
 
 	rdx, err := kvas.ConnectReduxAssets(
-		data.AbsReduxDir(), nil,
+		data.AbsReduxDir(),
 		data.CurrentElementsProperty,
 		data.PreviousElementsProperty,
 		data.AddedElementsProperty,
@@ -36,8 +36,8 @@ func Diff() error {
 		addedValues[id] = make([]string, 0)
 		removedValues[id] = make([]string, 0)
 
-		currentValues[id], _ = rdx.GetAllUnchangedValues(data.CurrentElementsProperty, id)
-		previousValues, _ := rdx.GetAllUnchangedValues(data.PreviousElementsProperty, id)
+		currentValues[id], _ = rdx.GetAllValues(data.CurrentElementsProperty, id)
+		previousValues, _ := rdx.GetAllValues(data.PreviousElementsProperty, id)
 
 		for _, cv := range currentValues[id] {
 			if !slices.Contains(previousValues, cv) {

@@ -17,7 +17,7 @@ func ResetChanges() error {
 	defer rca.End()
 
 	rdx, err := kvas.ConnectReduxAssets(
-		data.AbsReduxDir(), nil,
+		data.AbsReduxDir(),
 		data.CurrentElementsProperty,
 		data.AddedElementsProperty,
 		data.RemovedElementsProperty)

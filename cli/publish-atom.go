@@ -36,7 +36,7 @@ func PublishAtom(novusUrl string) error {
 	defer paa.End()
 
 	rdx, err := kvas.ConnectReduxAssets(
-		data.AbsReduxDir(), nil,
+		data.AbsReduxDir(),
 		data.CurrentElementsProperty,
 		data.AddedElementsProperty,
 		data.RemovedElementsProperty,
@@ -67,22 +67,22 @@ func PublishAtom(novusUrl string) error {
 			host = rest.Host(su)
 		}
 
-		if added, ok := rdx.GetAllUnchangedValues(data.AddedElementsProperty, id); ok {
+		if added, ok := rdx.GetAllValues(data.AddedElementsProperty, id); ok {
 			for _, entry := range added {
 				additions[id] = append(additions[id], rest.AbsHref(entry, host))
 			}
 		}
-		if removed, ok := rdx.GetAllUnchangedValues(data.RemovedElementsProperty, id); ok {
+		if removed, ok := rdx.GetAllValues(data.RemovedElementsProperty, id); ok {
 			for _, entry := range removed {
 				removals[id] = append(removals[id], rest.AbsHref(entry, host))
 			}
 		}
-		if mces, ok := rdx.GetAllUnchangedValues(data.MatchContentErrorsProperty, id); ok {
+		if mces, ok := rdx.GetAllValues(data.MatchContentErrorsProperty, id); ok {
 			for _, entry := range mces {
 				matchContentErrors[id] = append(matchContentErrors[id], entry)
 			}
 		}
-		if res, ok := rdx.GetAllUnchangedValues(data.ReduceErrorsProperty, id); ok {
+		if res, ok := rdx.GetAllValues(data.ReduceErrorsProperty, id); ok {
 			for _, entry := range res {
 				reduceErrors[id] = append(reduceErrors[id], entry)
 			}

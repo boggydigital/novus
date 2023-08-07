@@ -17,7 +17,7 @@ func ResetErrors() error {
 	defer rca.End()
 
 	rdx, err := kvas.ConnectReduxAssets(
-		data.AbsReduxDir(), nil,
+		data.AbsReduxDir(),
 		data.MatchContentErrorsProperty,
 		data.ReduceErrorsProperty)
 	if err != nil {

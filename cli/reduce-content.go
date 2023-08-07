@@ -19,7 +19,7 @@ func ReduceContent(since int64) error {
 	ra := nod.NewProgress("reducing news...")
 	defer ra.End()
 
-	rdx, err := kvas.ConnectReduxAssets(data.AbsReduxDir(), nil,
+	rdx, err := kvas.ConnectReduxAssets(data.AbsReduxDir(),
 		data.CurrentElementsProperty,
 		data.ReduceErrorsProperty,
 		data.SourceURLProperty)
