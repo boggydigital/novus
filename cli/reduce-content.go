@@ -8,7 +8,6 @@ import (
 	"github.com/boggydigitl/novus/data"
 	"golang.org/x/net/html"
 	"net/url"
-	"strings"
 )
 
 func ReduceContentHandler(u *url.URL) error {
@@ -100,7 +99,6 @@ func reduceSource(src *data.Source, kv kvas.KeyValuesEditor, rdx kvas.ReduxAsset
 
 	currentElements := make([]string, 0, len(elements))
 
-	sb := &strings.Builder{}
 	for _, element := range elements {
 
 		if src.Query.ElementReductionSelector != "" {
@@ -112,11 +110,8 @@ func reduceSource(src *data.Source, kv kvas.KeyValuesEditor, rdx kvas.ReduxAsset
 			}
 		}
 
-		sb.Reset()
-		if err := html.Render(sb, element); err != nil {
-			return err
-		}
-		currentElements = append(currentElements, sb.String())
+		tc := match_node.TextContent(element)
+		currentElements = append(currentElements, tc)
 	}
 
 	if err := rdx.ReplaceValues(data.CurrentElementsProperty, src.Id, currentElements...); err != nil {
