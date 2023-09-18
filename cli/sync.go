@@ -26,7 +26,7 @@ func Sync(novusUrl string) error {
 		return err
 	}
 
-	if err := ReduceContent(syncStart); err != nil {
+	if err := Reduce(syncStart); err != nil {
 		return err
 	}
 

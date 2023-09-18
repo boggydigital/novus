@@ -6,15 +6,18 @@ import (
 	"github.com/boggydigital/match_node"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigitl/novus/data"
+	"golang.org/x/exp/maps"
 	"golang.org/x/net/html"
 	"net/url"
+	"sort"
+	"strings"
 )
 
-func ReduceContentHandler(u *url.URL) error {
-	return ReduceContent(0)
+func ReduceHandler(u *url.URL) error {
+	return Reduce(0)
 }
 
-func ReduceContent(since int64) error {
+func Reduce(since int64) error {
 	ra := nod.NewProgress("reducing news...")
 	defer ra.End()
 
@@ -97,7 +100,8 @@ func reduceSource(src *data.Source, kv kvas.KeyValuesEditor, rdx kvas.ReduxAsset
 	elementsMatcher := match_node.NewSelector(src.Query.ElementsSelector)
 	elements := match_node.Matches(doc, elementsMatcher, -1)
 
-	currentElements := make([]string, 0, len(elements))
+	//currentElements := make([]string, 0, len(elements))
+	currentElements := make(map[string]bool)
 
 	for _, element := range elements {
 
@@ -111,10 +115,16 @@ func reduceSource(src *data.Source, kv kvas.KeyValuesEditor, rdx kvas.ReduxAsset
 		}
 
 		tc := match_node.TextContent(element)
-		currentElements = append(currentElements, tc)
+		// clean up extra characters
+		tc = strings.Replace(tc, "\n", "", -1)
+		tc = strings.Replace(tc, "\t", "", -1)
+		currentElements[tc] = true
 	}
 
-	if err := rdx.ReplaceValues(data.CurrentElementsProperty, src.Id, currentElements...); err != nil {
+	sortedElements := maps.Keys(currentElements)
+	sort.Strings(sortedElements)
+
+	if err := rdx.ReplaceValues(data.CurrentElementsProperty, src.Id, sortedElements...); err != nil {
 		return err
 	}
 

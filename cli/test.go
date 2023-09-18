@@ -31,7 +31,7 @@ func Test(resetErrors bool) error {
 		return ta.EndWithError(err)
 	}
 
-	if err := ReduceContent(0); err != nil {
+	if err := Reduce(0); err != nil {
 		return ta.EndWithError(err)
 	}
 

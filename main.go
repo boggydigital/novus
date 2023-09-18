@@ -77,7 +77,7 @@ func main() {
 		"get-content":   cli.GetContentHandler,
 		"match-content": cli.MatchContentHandler,
 		"publish-atom":  cli.PublishAtomHandler,
-		"reduce":        cli.ReduceContentHandler,
+		"reduce":        cli.ReduceHandler,
 		"reset-changes": cli.ResetChangesHandler,
 		"reset-errors":  cli.ResetErrorsHandler,
 		"serve":         cli.ServeHandler,
