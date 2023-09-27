@@ -22,8 +22,11 @@ func GetSource(w http.ResponseWriter, r *http.Request) {
 	sourcesProxy := data.NewIRAProxy(sources)
 
 	properties := []string{
-		data.CurrentElementsProperty,
+		data.MatchContentErrorsProperty,
 		data.ReduceErrorsProperty,
+		data.CurrentElementsProperty,
+		data.AddedElementsProperty,
+		data.RemovedElementsProperty,
 		data.SourceURLProperty}
 
 	rdxIRA := make(kvas.IdReduxAssets)

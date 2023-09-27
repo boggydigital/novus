@@ -8,7 +8,11 @@ var SourceProperties = []string{
 	data.Recipe,
 	data.Encoding,
 	data.Category,
+	data.MatchContentErrorsProperty,
+	data.ReduceErrorsProperty,
 	data.CurrentElementsProperty,
+	data.AddedElementsProperty,
+	data.RemovedElementsProperty,
 }
 
 var HiddenProperties = []string{
