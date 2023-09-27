@@ -7,6 +7,7 @@ import (
 )
 
 const (
+	Id                       = "id"
 	URL                      = "url"
 	Recipe                   = "recipe"
 	Encoding                 = "encoding"

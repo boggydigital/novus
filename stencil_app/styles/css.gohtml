@@ -1,86 +1,52 @@
 {{define "app-css"}}
     <style id="novus-styles">
-        section {
-            padding: var(--large) var(--x-small);
-            justify-content: center;
-        }
-
         #sources-container {
             container-type: inline-size;
         }
 
-        details {
-            margin: var(--normal) var(--large)
+        .label.category {
 
+            border: none;
+
+            &.LPs,
+            &.EPs,
+            &.Collaborations,
+            &.Soundtracks,
+            &.Mixtapes {
+                background: var(--system-orange-color);
+                color: var(--background-color);
+            }
+
+            &.Bandcamp {
+                background: var(--system-teal-color);
+                color: var(--background-color);
+            }
+
+            &.Books {
+                background: var(--system-red-color);
+                color: white;
+            }
+
+            &.Films {
+                background: var(--system-green-color);
+                color: var(--background-color);
+            }
+
+            &.Awards {
+                background: var(--system-purple-color);
+                color: var(--background-color);
+            }
         }
 
-        details > summary {
-            cursor: pointer;
-            font-size: var(--fs-x-larger);
+        .item-details {
+            & .text-properties {
+                & .text-property {
+                    & ul {
+                        flex-direction: column;
+                    }
+                }
+            }
         }
 
-        details > summary > span {
-            display: flex;
-            flex-direction: column;
-        }
-
-        details > summary > span > span.category {
-            width: max-content;
-            background: var(--highlight-color);
-            margin-block-start: var(--small);
-            padding: var(--x-small) var(--small);
-            border-radius: var(--border-radius-large);
-            font-size: var(--fs-xx-smaller);
-        }
-
-        details > summary > span > span.category.LPs,
-        details > summary > span > span.category.EPs,
-        details > summary > span > span.category.Collaborations,
-        details > summary > span > span.category.Soundtracks,
-        details > summary > span > span.category.Mixtapes {
-            background: var(--system-orange-color);
-            color: var(--background-color);
-        }
-
-        details > summary > span > span.category.Bandcamp {
-            background: var(--system-teal-color);
-            color: var(--background-color);
-        }
-
-        details > summary > span > span.category.Bibliography,
-        details > summary > span > span.category.Book.Series {
-            background: var(--system-red-color);
-            color: white;
-        }
-
-        details > summary > span > span.category.Filmography {
-            background: var(--system-green-color);
-            color: var(--background-color);
-        }
-
-        details > summary > span > span.category.Software {
-            background: var(--system-gray-color);
-            color: var(--background-color);
-        }
-
-        details > summary > span > span.category.Awards {
-            background: var(--system-purple-color);
-            color: var(--background-color);
-        }
-
-        details a {
-            text-decoration: none;
-            color: var(--system-blue-color)
-        }
-
-        details > a {
-            color: var(--background-color);
-            background: var(--system-blue-color);
-            font-weight: bold;
-            display: inline-block;
-            border-radius: var(--border-radius);
-            padding: var(--small) var(--normal);
-            margin: var(--normal)
-        }
     </style>
 {{end}}

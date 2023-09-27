@@ -10,6 +10,7 @@ func HandleFuncs() {
 	patternHandlers := map[string]http.Handler{
 		"/atom":    middleware.GetMethodOnly(nod.RequestLog(http.HandlerFunc(GetAtom))),
 		"/sources": middleware.GetMethodOnly(nod.RequestLog(http.HandlerFunc(GetSources))),
+		"/source":  middleware.GetMethodOnly(nod.RequestLog(http.HandlerFunc(GetSource))),
 		"/":        http.RedirectHandler("/sources", http.StatusPermanentRedirect),
 	}
 
