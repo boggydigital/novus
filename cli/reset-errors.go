@@ -16,29 +16,28 @@ func ResetErrors() error {
 	rca := nod.Begin("resetting errors...")
 	defer rca.End()
 
-	rdx, err := kvas.ConnectReduxAssets(
-		data.AbsReduxDir(),
+	errorProperties := []string{
+		data.GetContentErrorsProperty,
 		data.MatchContentErrorsProperty,
-		data.ReduceErrorsProperty)
+		data.DecodeErrorsProperty,
+		data.ReduceErrorsProperty,
+	}
+
+	rdx, err := kvas.ConnectReduxAssets(data.AbsReduxDir(), errorProperties...)
 	if err != nil {
 		return rca.EndWithError(err)
 	}
 
-	emptySet := make(map[string][]string)
+	emptySet := make(map[string]map[string][]string)
 
-	for _, id := range rdx.Keys(data.MatchContentErrorsProperty) {
-		emptySet[id] = []string{}
-	}
+	for _, p := range errorProperties {
+		for _, id := range rdx.Keys(p) {
+			emptySet[p][id] = []string{}
+		}
 
-	for _, id := range rdx.Keys(data.ReduceErrorsProperty) {
-		emptySet[id] = []string{}
-	}
-
-	if err := rdx.BatchReplaceValues(data.MatchContentErrorsProperty, emptySet); err != nil {
-		return rca.EndWithError(err)
-	}
-	if err := rdx.BatchReplaceValues(data.ReduceErrorsProperty, emptySet); err != nil {
-		return rca.EndWithError(err)
+		if err := rdx.BatchReplaceValues(data.MatchContentErrorsProperty, emptySet[p]); err != nil {
+			return rca.EndWithError(err)
+		}
 	}
 
 	rca.EndWithResult("done")

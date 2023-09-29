@@ -25,12 +25,19 @@ func Decode() error {
 		return dca.EndWithError(err)
 	}
 
+	rdx, err := kvas.ConnectRedux(data.AbsReduxDir(), data.DecodeErrorsProperty)
+	if err != nil {
+		return dca.EndWithError(err)
+	}
+
 	sources, err := data.LoadSources()
 	if err != nil {
 		return dca.EndWithError(err)
 	}
 
 	dca.TotalInt(len(sources))
+
+	errs := make(map[string][]string)
 
 	for _, src := range sources {
 
@@ -39,10 +46,14 @@ func Decode() error {
 		}
 
 		if err := decodeContent(kv, src.Id, src.Encoding); err != nil {
-			return dca.EndWithError(err)
+			errs[src.Id] = []string{err.Error()}
 		}
 
 		dca.Increment()
+	}
+
+	if err := rdx.BatchReplaceValues(errs); err != nil {
+		return dca.EndWithError(err)
 	}
 
 	dca.EndWithResult("done")

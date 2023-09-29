@@ -1,6 +1,8 @@
 package data
 
 const (
+	GetContentErrorsProperty   = "get-content-errors"
+	DecodeErrorsProperty       = "decode-errors"
 	MatchContentErrorsProperty = "match-content-errors"
 	ReduceErrorsProperty       = "reduce-errors"
 

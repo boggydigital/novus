@@ -18,28 +18,28 @@ func ReduceHandler(u *url.URL) error {
 }
 
 func Reduce(since int64) error {
-	ra := nod.NewProgress("reducing news...")
-	defer ra.End()
+	rca := nod.NewProgress("reducing content...")
+	defer rca.End()
 
 	rdx, err := kvas.ConnectReduxAssets(data.AbsReduxDir(),
 		data.CurrentElementsProperty,
 		data.ReduceErrorsProperty,
 		data.SourceURLProperty)
 	if err != nil {
-		return ra.EndWithError(err)
+		return rca.EndWithError(err)
 	}
 
 	matchedKv, err := kvas.ConnectLocal(data.AbsMatchedContentDir(), ".html")
 	if err != nil {
-		return ra.EndWithError(err)
+		return rca.EndWithError(err)
 	}
 
 	sources, err := data.LoadSources()
 	if err != nil {
-		return ra.EndWithError(err)
+		return rca.EndWithError(err)
 	}
 
-	ra.TotalInt(len(sources))
+	rca.TotalInt(len(sources))
 
 	errors := make(map[string][]string)
 	urls := make(map[string][]string)
@@ -61,17 +61,17 @@ func Reduce(since int64) error {
 		if err != nil {
 			errors[id] = []string{err.Error()}
 		}
-		ra.Increment()
+		rca.Increment()
 	}
 
 	if err = rdx.BatchReplaceValues(data.SourceURLProperty, urls); err != nil {
-		return ra.EndWithError(err)
+		return rca.EndWithError(err)
 	}
 	if err = rdx.BatchReplaceValues(data.ReduceErrorsProperty, errors); err != nil {
-		return ra.EndWithError(err)
+		return rca.EndWithError(err)
 	}
 
-	ra.EndWithResult("done")
+	rca.EndWithResult("done")
 
 	return nil
 }

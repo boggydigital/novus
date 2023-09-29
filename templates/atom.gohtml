@@ -1,29 +1,29 @@
 {{define "atom"}}
+
     {{if empty .Added}}{{else}}
         <section id="additions">
             <h1>Added</h1>
             {{template "atom-list" .Added}}
         </section>
     {{end}}
+
     {{if empty .Removed}}{{else}}
         <section id="removals">
             <h1>Removed</h1>
             {{template "atom-list" .Removed}}
         </section>
     {{end}}
+
     {{if empty .Added .Removed}}
         <h1>No changes since the last sync</h1>
         <div>{{.NumSources}} source(s) have been checked</div>
     {{end}}
 
-    {{if empty .MatchContentErrors}}{{else}}
-        <h1>match-content-errors</h1>
-        {{template "atom-list" .MatchContentErrors}}
-    {{end}}
-
-    {{if empty .ReduceContentErrors}}{{else}}
-        <h1>reduce-content-errors</h1>
-        {{template "atom-list" .ReduceContentErrors}}
+    {{range $errorProperty, $errors := .Errors}}
+        {{if empty $errors}}{{else}}
+            <h1>{{$errorProperty}}</h1>
+            {{template "atom-list" $errors}}
+        {{end}}
     {{end}}
 
 {{end}}

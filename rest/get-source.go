@@ -22,6 +22,7 @@ func GetSource(w http.ResponseWriter, r *http.Request) {
 	sourcesProxy := data.NewIRAProxy(sources)
 
 	properties := []string{
+		data.GetContentErrorsProperty,
 		data.MatchContentErrorsProperty,
 		data.ReduceErrorsProperty,
 		data.CurrentElementsProperty,

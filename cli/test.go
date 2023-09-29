@@ -35,45 +35,35 @@ func Test(resetErrors bool) error {
 		return ta.EndWithError(err)
 	}
 
-	rdx, err := kvas.ConnectReduxAssets(
-		data.AbsReduxDir(),
+	errorProperties := []string{
+		data.GetContentErrorsProperty,
+		data.DecodeErrorsProperty,
 		data.MatchContentErrorsProperty,
-		data.ReduceErrorsProperty)
+		data.ReduceErrorsProperty,
+	}
+
+	rdx, err := kvas.ConnectReduxAssets(data.AbsReduxDir(), errorProperties...)
 
 	if err != nil {
 		return ta.EndWithError(err)
 	}
 
-	gnea := nod.Begin("checking for match-content errors...")
-	defer gnea.End()
+	for _, p := range errorProperties {
 
-	mces := make(map[string][]string)
-	for _, id := range rdx.Keys(data.MatchContentErrorsProperty) {
-		if errors, ok := rdx.GetAllValues(data.MatchContentErrorsProperty, id); ok && len(errors) > 0 {
-			mces[id] = errors
+		erra := nod.Begin("checking for %s errors...", p)
+
+		errs := make(map[string][]string)
+		for _, id := range rdx.Keys(p) {
+			if errors, ok := rdx.GetAllValues(p, id); ok && len(errors) > 0 {
+				errs[id] = errors
+			}
 		}
-	}
 
-	if len(mces) > 0 {
-		gnea.EndWithSummary("match-content errors", mces)
-	} else {
-		gnea.EndWithResult("all good")
-	}
-
-	rea := nod.Begin("checking for reduce errors...")
-	defer rea.End()
-
-	res := make(map[string][]string)
-	for _, id := range rdx.Keys(data.ReduceErrorsProperty) {
-		if errors, ok := rdx.GetAllValues(data.ReduceErrorsProperty, id); ok && len(errors) > 0 {
-			res[id] = errors
+		if len(errs) > 0 {
+			erra.EndWithSummary(p+" errors", errs)
+		} else {
+			erra.EndWithResult("all good")
 		}
-	}
-
-	if len(res) > 0 {
-		rea.EndWithSummary("reduce errors", res)
-	} else {
-		rea.EndWithResult("all good")
 	}
 
 	if resetErrors {

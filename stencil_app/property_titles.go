@@ -12,6 +12,7 @@ var PropertyTitles = map[string]string{
 	data.CurrentElementsProperty:    "Current Elements",
 	data.AddedElementsProperty:      "Added Elements",
 	data.RemovedElementsProperty:    "Removed Elements",
+	data.GetContentErrorsProperty:   "Get Content Errors",
 	data.ReduceErrorsProperty:       "Reduce Errors",
 	data.MatchContentErrorsProperty: "Match Content Errors",
 }

@@ -8,6 +8,7 @@ var SourceProperties = []string{
 	data.Recipe,
 	data.Encoding,
 	data.Category,
+	data.GetContentErrorsProperty,
 	data.MatchContentErrorsProperty,
 	data.ReduceErrorsProperty,
 	data.CurrentElementsProperty,

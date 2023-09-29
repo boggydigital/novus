@@ -18,11 +18,10 @@ const (
 )
 
 type Changelog struct {
-	NumSources          int
-	Added               map[string][]string
-	Removed             map[string][]string
-	MatchContentErrors  map[string][]string
-	ReduceContentErrors map[string][]string
+	NumSources int
+	Added      map[string][]string
+	Removed    map[string][]string
+	Errors     map[string]map[string][]string
 }
 
 func PublishAtomHandler(u *url.URL) error {
@@ -35,29 +34,36 @@ func PublishAtom(novusUrl string) error {
 	paa := nod.NewProgress("publishing atom...")
 	defer paa.End()
 
-	rdx, err := kvas.ConnectReduxAssets(
-		data.AbsReduxDir(),
+	properties := []string{
 		data.CurrentElementsProperty,
 		data.AddedElementsProperty,
 		data.RemovedElementsProperty,
+		data.SourceURLProperty,
+	}
+
+	// tracking errors separately from other properties to allow adding them in the future
+	errorProperties := []string{
+		data.GetContentErrorsProperty,
 		data.MatchContentErrorsProperty,
+		data.DecodeErrorsProperty,
 		data.ReduceErrorsProperty,
-		data.SourceURLProperty)
+	}
+
+	properties = append(properties, errorProperties...)
+
+	rdx, err := kvas.ConnectReduxAssets(data.AbsReduxDir(), properties...)
 	if err != nil {
 		return paa.EndWithError(err)
 	}
 
 	additions := make(map[string][]string)
 	removals := make(map[string][]string)
-	matchContentErrors := make(map[string][]string)
-	reduceErrors := make(map[string][]string)
+	errors := make(map[string]map[string][]string)
+	for _, p := range errorProperties {
+		errors[p] = make(map[string][]string)
+	}
 
-	ks := keys(rdx,
-		data.CurrentElementsProperty,
-		data.AddedElementsProperty,
-		data.RemovedElementsProperty,
-		data.MatchContentErrorsProperty,
-		data.ReduceErrorsProperty)
+	ks := keys(rdx, properties...)
 
 	paa.TotalInt(len(ks))
 
@@ -77,14 +83,12 @@ func PublishAtom(novusUrl string) error {
 				removals[id] = append(removals[id], rest.AbsHref(entry, host))
 			}
 		}
-		if mces, ok := rdx.GetAllValues(data.MatchContentErrorsProperty, id); ok {
-			for _, entry := range mces {
-				matchContentErrors[id] = append(matchContentErrors[id], entry)
-			}
-		}
-		if res, ok := rdx.GetAllValues(data.ReduceErrorsProperty, id); ok {
-			for _, entry := range res {
-				reduceErrors[id] = append(reduceErrors[id], entry)
+
+		for _, p := range errorProperties {
+			if errs, ok := rdx.GetAllValues(p, id); ok {
+				for _, entry := range errs {
+					errors[p][id] = append(errors[p][id], entry)
+				}
 			}
 		}
 
@@ -99,11 +103,10 @@ func PublishAtom(novusUrl string) error {
 	af := atomus.NewFeed(atomFeedTitle, novusUrl)
 	sb := &strings.Builder{}
 	cl := &Changelog{
-		NumSources:          len(src),
-		Added:               additions,
-		Removed:             removals,
-		MatchContentErrors:  matchContentErrors,
-		ReduceContentErrors: reduceErrors,
+		NumSources: len(src),
+		Added:      additions,
+		Removed:    removals,
+		Errors:     errors,
 	}
 	if err := tmpl.ExecuteTemplate(sb, "atom", cl); err != nil {
 		return paa.EndWithError(err)
