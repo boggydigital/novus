@@ -31,11 +31,14 @@ func ResetErrors() error {
 	emptySet := make(map[string]map[string][]string)
 
 	for _, p := range errorProperties {
+		if emptySet[p] == nil {
+			emptySet[p] = make(map[string][]string)
+		}
 		for _, id := range rdx.Keys(p) {
 			emptySet[p][id] = []string{}
 		}
 
-		if err := rdx.BatchReplaceValues(data.MatchContentErrorsProperty, emptySet[p]); err != nil {
+		if err := rdx.BatchReplaceValues(p, emptySet[p]); err != nil {
 			return rca.EndWithError(err)
 		}
 	}

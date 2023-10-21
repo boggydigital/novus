@@ -6,6 +6,8 @@ github.com/boggydigital/clo v0.3.6 h1:syeucZIM2/9B3jsUZqDo3TOYqgvJ6C1ketRgSuDoUf
 github.com/boggydigital/clo v0.3.6/go.mod h1:7QbdMB008okXsdk41qJyJ6k/oJALIIXQ0GLYSxY9WFM=
 github.com/boggydigital/coost v0.3.8 h1:LMHuC5ftC60uSA8/eMv2/qOj5F/tK86XcQ/3qzEI33Y=
 github.com/boggydigital/coost v0.3.8/go.mod h1:f5wbDShRqPvjX7ZBtrevnCFjcOe/lGBh0zV3KXsO/LY=
+github.com/boggydigital/coost v0.3.9 h1:lMfR5PyexBDR4xDOQp0zWZWUk/Dqlrx7gw7i7XdsC4c=
+github.com/boggydigital/coost v0.3.9/go.mod h1:w7ChGaah1DKsBIXb9ANdILg2pe2Jp7JkNpnK2R6rBec=
 github.com/boggydigital/dolo v0.2.13 h1:hR45YlPPT59ilnWGqAnxkoiBslSMbvHxBUv6kvXutH4=
 github.com/boggydigital/dolo v0.2.13/go.mod h1:xOzQ4WPcyETrETGpuHRQRtXTFu8kkdXKQCcddbhU/tQ=
 github.com/boggydigital/issa v0.1.10 h1:zHSRJHkOz3DwVvp4/YL06qq/VHXexL7qrn4m48hRf/o=
@@ -35,6 +37,8 @@ github.com/boggydigital/stencil v0.2.14 h1:ul56W7maMuirA+gfnGMNgK3VRh0fJAIZt4dwj
 github.com/boggydigital/stencil v0.2.14/go.mod h1:jJMqlrYS9h3b+CGNBhsZ20bygOBo8euBV6RKjB34soQ=
 github.com/boggydigital/stencil v0.2.15 h1:ezlPOvXAuxVLS/02T6MTGrftbPv9esz302fSNlmLzgo=
 github.com/boggydigital/stencil v0.2.15/go.mod h1:jJMqlrYS9h3b+CGNBhsZ20bygOBo8euBV6RKjB34soQ=
+github.com/boggydigital/stencil v0.2.16 h1:xy/4Q9Ig7QmxH0Cc9NPvu3xXwSkotvb+EoagxGCpm3M=
+github.com/boggydigital/stencil v0.2.16/go.mod h1:jJMqlrYS9h3b+CGNBhsZ20bygOBo8euBV6RKjB34soQ=
 github.com/boggydigital/testo v0.1.8 h1:NKuKLpWKn8gG3dYq8xNrFYHimxoCTdzLOs242q6jeQo=
 github.com/boggydigital/testo v0.1.8/go.mod h1:8JTO6UKeQPsHS82vbCH/3NLDfewmr/84vVQ6rNLdCas=
 github.com/boggydigital/wits v0.2.3 h1:Z0eB+QlIA18fJmblyV6ZJQ/swPYSFhOxfgMXOQz4/c8=

@@ -1,16 +1,13 @@
 package cli
 
 import (
+	"errors"
 	"github.com/boggydigital/coost"
-	"github.com/boggydigital/dolo"
 	"github.com/boggydigital/kvas"
-	"github.com/boggydigital/kvas_dolo"
 	"github.com/boggydigital/nod"
-	"github.com/boggydigital/wits"
 	"github.com/boggydigitl/novus/data"
 	"net/http"
 	"net/url"
-	"os"
 )
 
 func GetContentHandler(u *url.URL) error {
@@ -37,51 +34,52 @@ func GetContent() error {
 		return gca.EndWithError(err)
 	}
 
-	ids := make([]string, 0, len(sources))
-	urls := make([]*url.URL, 0, len(sources))
-	for _, src := range sources {
-		ids = append(ids, src.Id)
-		urls = append(urls, src.URL)
-	}
-
-	indexSetter := kvas_dolo.NewIndexSetter(kv, ids...)
-
 	gca.TotalInt(len(sources))
 
-	hc := http.DefaultClient
-	hosts := make([]string, 0)
-
-	if cookieFile, err := os.Open(data.AbsCookiesPath()); err == nil {
-		defer cookieFile.Close()
-		skv, err := wits.ReadSectionKeyValue(cookieFile)
-		if err != nil {
-			return gca.EndWithError(err)
-		}
-		for host := range skv {
-			hosts = append(hosts, host)
-		}
-		cj, err := coost.NewJar(cookieFile, hosts...)
-		if err != nil {
-			return gca.EndWithError(err)
-		}
-		hc = cj.NewHttpClient()
+	cj, err := coost.NewJar(data.AbsCookiesPath())
+	if err != nil {
+		return gca.EndWithError(err)
 	}
 
-	dc := dolo.NewClient(hc, dolo.Defaults())
+	hc := cj.NewHttpClient()
+	getContentErrors := make(map[string][]string)
 
-	if errs := dc.GetSet(urls, indexSetter, gca); len(errs) > 0 {
-		sourceErrors := make(map[string][]string, len(errs))
-		for i, src := range sources {
-			if err, ok := errs[i]; ok && err != nil {
-				sourceErrors[src.Id] = []string{err.Error()}
-			}
+	for _, src := range sources {
+		if err := getSource(src, hc, kv); err != nil {
+			getContentErrors[src.Id] = []string{err.Error()}
+			continue
 		}
-		if err := rdx.BatchReplaceValues(sourceErrors); err != nil {
+		if err := cj.Store(data.AbsCookiesPath()); err != nil {
 			return gca.EndWithError(err)
 		}
+
+		gca.Increment()
+	}
+
+	if err := rdx.BatchReplaceValues(getContentErrors); err != nil {
+		return gca.EndWithError(err)
 	}
 
 	gca.EndWithResult("done")
+
+	return nil
+}
+
+func getSource(src *data.Source, hc *http.Client, kv kvas.KeyValues) error {
+
+	resp, err := hc.Get(src.URL.String())
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode < 200 || resp.StatusCode > 299 {
+		return errors.New(resp.Status)
+	}
+
+	if err := kv.Set(src.Id, resp.Body); err != nil {
+		return err
+	}
 
 	return nil
 }
