@@ -14,6 +14,11 @@ func Sync(novusUrl string) error {
 
 	syncStart := time.Now().Unix()
 
+	// resetting errors before sync, to only track the latest iteration errors
+	if err := ResetErrors(); err != nil {
+		return err
+	}
+
 	if err := GetContent(); err != nil {
 		return err
 	}
@@ -40,10 +45,6 @@ func Sync(novusUrl string) error {
 
 	if err := ResetChanges(); err != nil {
 		return nil
-	}
-
-	if err := ResetErrors(); err != nil {
-		return err
 	}
 
 	return nil
