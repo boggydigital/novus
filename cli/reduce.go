@@ -6,10 +6,9 @@ import (
 	"github.com/boggydigital/match_node"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigitl/novus/data"
-	"golang.org/x/exp/maps"
+	"golang.org/x/exp/slices"
 	"golang.org/x/net/html"
 	"net/url"
-	"sort"
 	"strings"
 )
 
@@ -100,8 +99,7 @@ func reduceSource(src *data.Source, kv kvas.KeyValuesEditor, rdx kvas.ReduxAsset
 	elementsMatcher := match_node.NewSelector(src.Query.ElementsSelector)
 	elements := match_node.Matches(doc, elementsMatcher, -1)
 
-	//currentElements := make([]string, 0, len(elements))
-	currentElements := make(map[string]bool)
+	currentElements := make([]string, 0, len(elements))
 
 	for _, element := range elements {
 
@@ -114,17 +112,25 @@ func reduceSource(src *data.Source, kv kvas.KeyValuesEditor, rdx kvas.ReduxAsset
 			}
 		}
 
-		tc := match_node.TextContent(element)
-		// clean up extra characters
-		tc = strings.Replace(tc, "\n", "", -1)
-		tc = strings.Replace(tc, "\t", "", -1)
-		currentElements[tc] = true
+		tc := ""
+		if src.Query.ElementAttribute == "" {
+			tc = match_node.TextContent(element)
+			// clean up extra white-space characters
+			tc = strings.Replace(tc, "\n", "", -1)
+			tc = strings.Replace(tc, "\t", "", -1)
+		} else {
+			tc = match_node.AttrVal(element, src.Query.ElementAttribute)
+			if tc == "" {
+				return fmt.Errorf("%s[%s] attribute has no value", src.Id, src.Query.ElementAttribute)
+			}
+		}
+
+		if tc != "" && !slices.Contains(currentElements, tc) {
+			currentElements = append(currentElements, tc)
+		}
 	}
 
-	sortedElements := maps.Keys(currentElements)
-	sort.Strings(sortedElements)
-
-	if err := rdx.ReplaceValues(data.CurrentElementsProperty, src.Id, sortedElements...); err != nil {
+	if err := rdx.ReplaceValues(data.CurrentElementsProperty, src.Id, currentElements...); err != nil {
 		return err
 	}
 

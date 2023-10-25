@@ -17,7 +17,7 @@ func MatchContentHandler(u *url.URL) error {
 
 func MatchContent(since int64) error {
 
-	mca := nod.Begin("matching content...")
+	mca := nod.NewProgress("matching content...")
 	defer mca.End()
 
 	localKv, err := kvas.ConnectLocal(data.AbsLocalContentDir(), ".html")
@@ -49,6 +49,8 @@ func MatchContent(since int64) error {
 		ids = data.SourcesIds(sources...)
 	}
 
+	mca.TotalInt(len(ids))
+
 	for _, id := range ids {
 
 		src := data.SourceById(id, sources...)
@@ -56,8 +58,11 @@ func MatchContent(since int64) error {
 		errors[id] = make([]string, 0)
 		if err := matchSource(src, localKv, matchedKv); err != nil {
 			errors[id] = []string{err.Error()}
+			mca.Increment()
 			continue
 		}
+
+		mca.Increment()
 	}
 
 	if len(errors) > 0 {

@@ -17,6 +17,7 @@ const (
 	TextContent              = "text-content"
 	ElementsSelector         = "elements-selector"
 	ElementReductionSelector = "element-reduction-selector"
+	ElementAttribute         = "element-attribute"
 )
 
 type Source struct {

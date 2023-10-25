@@ -16,9 +16,10 @@ bandcamp-discography-music
     elements-selector=li.music-grid-item
     element-reduction-selector=p.title
 litres-author-books
-    container-selector=div.person-page-list__content
-    elements-selector=div.arts_by_alphabet_item
-    element-reduction-selector=div.art_name_container
+    container-selector=div.arts-slider__arts_wrapper__inner
+    elements-selector=div.art-item
+    element-reduction-selector=div.processingImage
+    element-attribute=data-alt
 kino-teatr-works
     container-selector=div.page_content_block
     text-content=фильмография

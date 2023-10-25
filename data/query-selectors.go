@@ -11,6 +11,7 @@ type QuerySelectors struct {
 	TextContent              string
 	ElementsSelector         string
 	ElementReductionSelector string
+	ElementAttribute         string
 }
 
 func NewQuerySelectors(kv wits.KeyValue) *QuerySelectors {
@@ -26,6 +27,8 @@ func NewQuerySelectors(kv wits.KeyValue) *QuerySelectors {
 			qs.ElementsSelector = v
 		case ElementReductionSelector:
 			qs.ElementReductionSelector = v
+		case ElementAttribute:
+			qs.ElementAttribute = v
 		}
 	}
 
