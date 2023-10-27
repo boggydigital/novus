@@ -3,18 +3,18 @@ package cli
 import (
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
-	"github.com/boggydigitl/novus/data"
+	"github.com/boggydigital/novus/data"
 	"net/url"
 )
 
-func TestHandler(u *url.URL) error {
+func TestSourcesHandler(u *url.URL) error {
 
 	resetErrors := u.Query().Has("reset-errors")
 
-	return Test(resetErrors)
+	return TestSources(resetErrors)
 }
 
-func Test(resetErrors bool) error {
+func TestSources(resetErrors bool) error {
 
 	ta := nod.Begin("testing sources...")
 	defer ta.End()

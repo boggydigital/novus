@@ -3,9 +3,13 @@ RUN apk add --no-cache --update git
 ADD . /go/src/app
 WORKDIR /go/src/app
 RUN go get ./...
-RUN CGO_ENABLED=0 go build -a -installsuffix cgo -tags timetzdata -o nv main.go
+RUN go build \
+    -a -tags timetzdata \
+    -o nv \
+    -ldflags="-s -w -X 'github.com/boggydigital/novus/cli.GitTag=`git describe --tags --abbrev=0`'" \
+    main.go
 
-FROM scratch
+FROM alpine:latest
 COPY --from=build /go/src/app/nv /usr/bin/nv
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 

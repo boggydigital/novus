@@ -1,4 +1,4 @@
-module github.com/boggydigitl/novus
+module github.com/boggydigital/novus
 
 go 1.21
 

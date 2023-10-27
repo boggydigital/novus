@@ -1,8 +1,8 @@
 package stencil_app
 
 import (
+	"github.com/boggydigital/novus/data"
 	"github.com/boggydigital/stencil"
-	"github.com/boggydigitl/novus/data"
 )
 
 const (

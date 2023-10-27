@@ -3,7 +3,7 @@ package cli
 import (
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
-	"github.com/boggydigitl/novus/data"
+	"github.com/boggydigital/novus/data"
 	"net/url"
 )
 

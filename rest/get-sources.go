@@ -2,8 +2,8 @@ package rest
 
 import (
 	"github.com/boggydigital/nod"
-	"github.com/boggydigitl/novus/data"
-	"github.com/boggydigitl/novus/stencil_app"
+	"github.com/boggydigital/novus/data"
+	"github.com/boggydigital/novus/stencil_app"
 	"golang.org/x/exp/maps"
 	"net/http"
 	"sort"

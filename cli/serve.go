@@ -3,7 +3,7 @@ package cli
 import (
 	"fmt"
 	"github.com/boggydigital/nod"
-	"github.com/boggydigitl/novus/rest"
+	"github.com/boggydigital/novus/rest"
 	"net/http"
 	"net/url"
 	"strconv"

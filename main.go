@@ -6,10 +6,10 @@ import (
 	_ "embed"
 	"github.com/boggydigital/clo"
 	"github.com/boggydigital/nod"
+	"github.com/boggydigital/novus/cli"
+	"github.com/boggydigital/novus/data"
+	"github.com/boggydigital/novus/rest"
 	"github.com/boggydigital/wits"
-	"github.com/boggydigitl/novus/cli"
-	"github.com/boggydigitl/novus/data"
-	"github.com/boggydigitl/novus/rest"
 	"html/template"
 	"os"
 	"sync"
@@ -82,7 +82,8 @@ func main() {
 		"reset-errors":  cli.ResetErrorsHandler,
 		"serve":         cli.ServeHandler,
 		"sync":          cli.SyncHandler,
-		"test":          cli.TestHandler,
+		"test-sources":  cli.TestSourcesHandler,
+		"version":       cli.VersionHandler,
 	})
 
 	if err := defs.AssertCommandsHaveHandlers(); err != nil {

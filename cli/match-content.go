@@ -5,7 +5,7 @@ import (
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/match_node"
 	"github.com/boggydigital/nod"
-	"github.com/boggydigitl/novus/data"
+	"github.com/boggydigital/novus/data"
 	"golang.org/x/net/html"
 	"net/url"
 	"strings"

@@ -2,7 +2,7 @@ package stencil_app
 
 import (
 	"github.com/boggydigital/kvas"
-	"github.com/boggydigitl/novus/data"
+	"github.com/boggydigital/novus/data"
 )
 
 func fmtLabel(_, property, link string, _ kvas.ReduxAssets) string {

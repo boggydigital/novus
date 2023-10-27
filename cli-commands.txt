@@ -30,5 +30,7 @@ serve
 sync
     novus-url$
 
-test
+test-sources
     reset-errors
+
+version

@@ -3,7 +3,7 @@ package rest
 import (
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
-	"github.com/boggydigitl/novus/data"
+	"github.com/boggydigital/novus/data"
 	"net/http"
 )
 
@@ -39,11 +39,11 @@ func GetSource(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, p := range properties {
-		for _, id := range rdx.Keys(p) {
-			if rdxIRA[id] == nil {
-				rdxIRA[id] = make(map[string][]string)
+		for _, pid := range rdx.Keys(p) {
+			if rdxIRA[pid] == nil {
+				rdxIRA[pid] = make(map[string][]string)
 			}
-			rdxIRA[id][p], _ = rdx.GetAllValues(p, id)
+			rdxIRA[pid][p], _ = rdx.GetAllValues(p, pid)
 		}
 	}
 

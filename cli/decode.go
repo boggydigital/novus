@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
-	"github.com/boggydigitl/novus/data"
+	"github.com/boggydigital/novus/data"
 	"golang.org/x/text/encoding"
 	"golang.org/x/text/encoding/charmap"
 	"io"

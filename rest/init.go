@@ -1,8 +1,8 @@
 package rest
 
 import (
+	"github.com/boggydigital/novus/stencil_app"
 	"github.com/boggydigital/stencil"
-	"github.com/boggydigitl/novus/stencil_app"
 	"html/template"
 	"io/fs"
 )
