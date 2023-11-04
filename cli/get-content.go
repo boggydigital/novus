@@ -52,7 +52,6 @@ func GetContent() error {
 		if err := cj.Store(data.AbsCookiesPath()); err != nil {
 			return gca.EndWithError(err)
 		}
-
 		gca.Increment()
 	}
 

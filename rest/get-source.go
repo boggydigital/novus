@@ -38,12 +38,22 @@ func GetSource(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	ids := make(map[string]interface{})
 	for _, p := range properties {
 		for _, pid := range rdx.Keys(p) {
+			ids[pid] = nil
+		}
+	}
+
+	for pid := range ids {
+		for _, p := range properties {
 			if rdxIRA[pid] == nil {
 				rdxIRA[pid] = make(map[string][]string)
 			}
 			rdxIRA[pid][p], _ = rdx.GetAllValues(p, pid)
+			if rdxIRA[pid][p] == nil {
+				rdxIRA[pid][p] = make([]string, 0)
+			}
 		}
 	}
 
