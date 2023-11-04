@@ -27,7 +27,7 @@ func TestSources(resetErrors bool) error {
 		return ta.EndWithError(err)
 	}
 
-	if err := MatchContent(0); err != nil {
+	if err := MatchContent(); err != nil {
 		return ta.EndWithError(err)
 	}
 

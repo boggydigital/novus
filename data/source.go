@@ -58,6 +58,8 @@ func newSource(id string, kv wits.KeyValue, recipes wits.SectionKeyValue) (*Sour
 		case ElementsSelector:
 			fallthrough
 		case ElementReductionSelector:
+			fallthrough
+		case ElementAttribute:
 			// do nothing, fill be processed later
 		default:
 			return nil, fmt.Errorf("%s has an unknown source parameter %s", id, k)

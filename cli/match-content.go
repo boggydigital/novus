@@ -12,10 +12,10 @@ import (
 )
 
 func MatchContentHandler(u *url.URL) error {
-	return MatchContent(0)
+	return MatchContent()
 }
 
-func MatchContent(since int64) error {
+func MatchContent() error {
 
 	mca := nod.NewProgress("matching content...")
 	defer mca.End()
@@ -42,12 +42,7 @@ func MatchContent(since int64) error {
 
 	errors := make(map[string][]string)
 
-	var ids []string
-	if since > 0 {
-		ids = localKv.ModifiedAfter(since, false)
-	} else {
-		ids = data.SourcesIds(sources...)
-	}
+	ids := data.SourcesIds(sources...)
 
 	mca.TotalInt(len(ids))
 

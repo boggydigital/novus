@@ -59,4 +59,7 @@ func (qs *QuerySelectors) Override(another *QuerySelectors) {
 	if another.ElementReductionSelector != "" {
 		qs.ElementReductionSelector = another.ElementReductionSelector
 	}
+	if another.ElementAttribute != "" {
+		qs.ElementAttribute = another.ElementAttribute
+	}
 }
