@@ -6,7 +6,7 @@ require (
 	github.com/boggydigital/atomus v0.1.9
 	github.com/boggydigital/clo v1.0.4
 	github.com/boggydigital/coost v0.3.9
-	github.com/boggydigital/kvas v0.3.30
+	github.com/boggydigital/kvas v0.3.31
 	github.com/boggydigital/match_node v0.1.16
 	github.com/boggydigital/middleware v0.1.11
 	github.com/boggydigital/nod v0.1.21
