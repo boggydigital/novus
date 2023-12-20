@@ -17,7 +17,7 @@ func Diff() error {
 	uca := nod.NewProgress("detecting changes...")
 	defer uca.End()
 
-	rdx, err := kvas.ConnectReduxAssets(
+	rdx, err := kvas.ReduxWriter(
 		data.AbsReduxDir(),
 		data.CurrentElementsProperty,
 		data.PreviousElementsProperty,

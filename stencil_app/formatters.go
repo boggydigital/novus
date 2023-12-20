@@ -5,7 +5,7 @@ import (
 	"github.com/boggydigital/novus/data"
 )
 
-func fmtLabel(_, property, link string, _ kvas.ReduxAssets) string {
+func fmtLabel(_, property, link string, _ kvas.ReadableRedux) string {
 	label := link
 	switch property {
 	default:
@@ -14,7 +14,7 @@ func fmtLabel(_, property, link string, _ kvas.ReduxAssets) string {
 	return label
 }
 
-func fmtTitle(id, property, link string, rxa kvas.ReduxAssets) string {
+func fmtTitle(id, property, link string, _ kvas.ReadableRedux) string {
 	title := link
 
 	switch property {
@@ -27,7 +27,7 @@ func fmtTitle(id, property, link string, rxa kvas.ReduxAssets) string {
 	return title
 }
 
-func fmtHref(_, property, link string, _ kvas.ReduxAssets) string {
+func fmtHref(_, property, link string, _ kvas.ReadableRedux) string {
 	switch property {
 	case data.URL:
 		return link
@@ -37,10 +37,10 @@ func fmtHref(_, property, link string, _ kvas.ReduxAssets) string {
 	return ""
 }
 
-func fmtAction(id, property, link string, rxa kvas.ReduxAssets) string {
+func fmtAction(id, property, link string, _ kvas.ReadableRedux) string {
 	return ""
 }
 
-func fmtActionHref(id, property, link string, _ kvas.ReduxAssets) string {
+func fmtActionHref(id, property, link string, _ kvas.ReadableRedux) string {
 	return ""
 }

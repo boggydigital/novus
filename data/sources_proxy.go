@@ -1,9 +1,7 @@
 package data
 
-import "github.com/boggydigital/kvas"
-
-func NewIRAProxy(sources []*Source) *kvas.IRAProxy {
-	data := kvas.IdReduxAssets{}
+func SourcesIdPropertyValues(sources []*Source) map[string]map[string][]string {
+	data := make(map[string]map[string][]string)
 
 	for _, src := range sources {
 		entry := make(map[string][]string)
@@ -16,5 +14,5 @@ func NewIRAProxy(sources []*Source) *kvas.IRAProxy {
 		data[src.Id] = entry
 	}
 
-	return kvas.NewIRAProxy(data)
+	return data
 }

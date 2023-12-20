@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
 	"github.com/boggydigital/novus/stencil_app"
@@ -19,7 +20,7 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sourcesProxy := data.NewIRAProxy(sources)
+	srcIpv := data.SourcesIdPropertyValues(sources)
 
 	DefaultHeaders(w)
 
@@ -42,6 +43,8 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 		categoryTotals[c] = len(sourcesByCategory[c])
 	}
 
+	rdx := kvas.ReduxProxy(srcIpv)
+
 	if err := app.RenderGroup(
 		stencil_app.NavSources,
 		categories,
@@ -50,7 +53,7 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 		categoryTotals,
 		"",
 		nil,
-		sourcesProxy,
+		rdx,
 		w); err != nil {
 		http.Error(w, nod.Error(err).Error(), http.StatusInternalServerError)
 		return

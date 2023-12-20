@@ -19,7 +19,7 @@ func GetSource(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sourcesProxy := data.NewIRAProxy(sources)
+	srcIpv := data.SourcesIdPropertyValues(sources)
 
 	properties := []string{
 		data.GetContentErrorsProperty,
@@ -30,9 +30,7 @@ func GetSource(w http.ResponseWriter, r *http.Request) {
 		data.RemovedElementsProperty,
 		data.SourceURLProperty}
 
-	rdxIRA := make(kvas.IdReduxAssets)
-
-	rdx, err := kvas.ConnectReduxAssets(data.AbsReduxDir(), properties...)
+	rdx, err := kvas.ReduxReader(data.AbsReduxDir(), properties...)
 	if err != nil {
 		http.Error(w, nod.Error(err).Error(), http.StatusInternalServerError)
 		return
@@ -47,21 +45,21 @@ func GetSource(w http.ResponseWriter, r *http.Request) {
 
 	for pid := range ids {
 		for _, p := range properties {
-			if rdxIRA[pid] == nil {
-				rdxIRA[pid] = make(map[string][]string)
+			if srcIpv[pid] == nil {
+				srcIpv[pid] = make(map[string][]string)
 			}
-			rdxIRA[pid][p], _ = rdx.GetAllValues(p, pid)
-			if rdxIRA[pid][p] == nil {
-				rdxIRA[pid][p] = make([]string, 0)
+			srcIpv[pid][p], _ = rdx.GetAllValues(p, pid)
+			if srcIpv[pid][p] == nil {
+				srcIpv[pid][p] = make([]string, 0)
 			}
 		}
 	}
 
-	sourcesProxy.Merge(rdxIRA)
+	rdxProxy := kvas.ReduxProxy(srcIpv)
 
 	DefaultHeaders(w)
 
-	if err := app.RenderItem(id, nil, sourcesProxy, w); err != nil {
+	if err := app.RenderItem(id, nil, rdxProxy, w); err != nil {
 		http.Error(w, nod.Error(err).Error(), http.StatusInternalServerError)
 		return
 	}

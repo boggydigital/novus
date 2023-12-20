@@ -20,7 +20,7 @@ func Reduce(since int64) error {
 	rca := nod.NewProgress("reducing content...")
 	defer rca.End()
 
-	rdx, err := kvas.ConnectReduxAssets(data.AbsReduxDir(),
+	rdx, err := kvas.ReduxWriter(data.AbsReduxDir(),
 		data.CurrentElementsProperty,
 		data.ReduceErrorsProperty,
 		data.SourceURLProperty)
@@ -75,7 +75,7 @@ func Reduce(since int64) error {
 	return nil
 }
 
-func reduceSource(src *data.Source, kv kvas.KeyValuesEditor, rdx kvas.ReduxAssets) error {
+func reduceSource(src *data.Source, kv kvas.KeyValues, rdx kvas.WriteableRedux) error {
 
 	if src.Query.ElementsSelector == "" {
 		return nil

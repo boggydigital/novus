@@ -16,7 +16,7 @@ func ResetChanges() error {
 	rca := nod.Begin("resetting changes...")
 	defer rca.End()
 
-	rdx, err := kvas.ConnectReduxAssets(
+	rdx, err := kvas.ReduxWriter(
 		data.AbsReduxDir(),
 		data.CurrentElementsProperty,
 		data.AddedElementsProperty,

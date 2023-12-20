@@ -23,7 +23,7 @@ func ResetErrors() error {
 		data.ReduceErrorsProperty,
 	}
 
-	rdx, err := kvas.ConnectReduxAssets(data.AbsReduxDir(), errorProperties...)
+	rdx, err := kvas.ReduxWriter(data.AbsReduxDir(), errorProperties...)
 	if err != nil {
 		return rca.EndWithError(err)
 	}

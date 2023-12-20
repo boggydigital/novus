@@ -24,7 +24,7 @@ func GetContent() error {
 		return gca.EndWithError(err)
 	}
 
-	rdx, err := kvas.ConnectRedux(data.AbsReduxDir(), data.GetContentErrorsProperty)
+	rdx, err := kvas.ReduxWriter(data.AbsReduxDir(), data.GetContentErrorsProperty)
 	if err != nil {
 		return gca.EndWithError(err)
 	}
@@ -55,7 +55,7 @@ func GetContent() error {
 		gca.Increment()
 	}
 
-	if err := rdx.BatchReplaceValues(getContentErrors); err != nil {
+	if err := rdx.BatchReplaceValues(data.GetContentErrorsProperty, getContentErrors); err != nil {
 		return gca.EndWithError(err)
 	}
 

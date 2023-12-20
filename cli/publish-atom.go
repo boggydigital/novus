@@ -51,7 +51,7 @@ func PublishAtom(novusUrl string) error {
 
 	properties = append(properties, errorProperties...)
 
-	rdx, err := kvas.ConnectReduxAssets(data.AbsReduxDir(), properties...)
+	rdx, err := kvas.ReduxReader(data.AbsReduxDir(), properties...)
 	if err != nil {
 		return paa.EndWithError(err)
 	}
@@ -128,7 +128,7 @@ func PublishAtom(novusUrl string) error {
 	return nil
 }
 
-func keys(rdx kvas.ReduxAssets, properties ...string) map[string]interface{} {
+func keys(rdx kvas.ReadableRedux, properties ...string) map[string]interface{} {
 	ks := make(map[string]interface{})
 	for _, p := range properties {
 		for _, id := range rdx.Keys(p) {

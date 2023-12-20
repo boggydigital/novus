@@ -35,7 +35,7 @@ func MatchContent() error {
 		return mca.EndWithError(err)
 	}
 
-	rdx, err := kvas.ConnectRedux(data.AbsReduxDir(), data.MatchContentErrorsProperty)
+	rdx, err := kvas.ReduxWriter(data.AbsReduxDir(), data.MatchContentErrorsProperty)
 	if err != nil {
 		return mca.EndWithError(err)
 	}
@@ -61,7 +61,7 @@ func MatchContent() error {
 	}
 
 	if len(errors) > 0 {
-		if err := rdx.BatchReplaceValues(errors); err != nil {
+		if err := rdx.BatchReplaceValues(data.MatchContentErrorsProperty, errors); err != nil {
 			return mca.EndWithError(err)
 		}
 	}
@@ -71,7 +71,7 @@ func MatchContent() error {
 	return nil
 }
 
-func matchSource(src *data.Source, localKv, matchedKv kvas.KeyValuesEditor) error {
+func matchSource(src *data.Source, localKv, matchedKv kvas.KeyValues) error {
 	localContent, err := localKv.Get(src.Id)
 	if err != nil {
 		return err
