@@ -51,7 +51,7 @@ func PublishAtom(novusUrl string) error {
 
 	properties = append(properties, errorProperties...)
 
-	rdx, err := kvas.ReduxReader(data.AbsReduxDir(), properties...)
+	rdx, err := kvas.NewReduxReader(data.AbsReduxDir(), properties...)
 	if err != nil {
 		return paa.EndWithError(err)
 	}

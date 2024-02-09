@@ -24,7 +24,7 @@ func GetContent() error {
 		return gca.EndWithError(err)
 	}
 
-	rdx, err := kvas.ReduxWriter(data.AbsReduxDir(), data.GetContentErrorsProperty)
+	rdx, err := kvas.NewReduxWriter(data.AbsReduxDir(), data.GetContentErrorsProperty)
 	if err != nil {
 		return gca.EndWithError(err)
 	}

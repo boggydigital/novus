@@ -42,7 +42,7 @@ func TestSources(resetErrors bool) error {
 		data.ReduceErrorsProperty,
 	}
 
-	rdx, err := kvas.ReduxReader(data.AbsReduxDir(), errorProperties...)
+	rdx, err := kvas.NewReduxReader(data.AbsReduxDir(), errorProperties...)
 
 	if err != nil {
 		return ta.EndWithError(err)

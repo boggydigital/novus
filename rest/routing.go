@@ -1,23 +1,20 @@
 package rest
 
 import (
-	"github.com/boggydigital/middleware"
 	"github.com/boggydigital/nod"
 	"net/http"
 )
 
 var (
-	BrGzip  = middleware.BrGzip
-	GetOnly = middleware.GetMethodOnly
-	Log     = nod.RequestLog
+	Log = nod.RequestLog
 )
 
 func HandleFuncs() {
 	patternHandlers := map[string]http.Handler{
-		"/atom":    BrGzip(GetOnly(Log(http.HandlerFunc(GetAtom)))),
-		"/sources": BrGzip(GetOnly(Log(http.HandlerFunc(GetSources)))),
-		"/source":  BrGzip(GetOnly(Log(http.HandlerFunc(GetSource)))),
-		"/":        http.RedirectHandler("/sources", http.StatusPermanentRedirect),
+		"GET /atom":    Log(http.HandlerFunc(GetAtom)),
+		"GET /sources": Log(http.HandlerFunc(GetSources)),
+		"GET /source":  Log(http.HandlerFunc(GetSource)),
+		"GET /":        http.RedirectHandler("/sources", http.StatusPermanentRedirect),
 	}
 
 	for p, h := range patternHandlers {

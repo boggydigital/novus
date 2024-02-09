@@ -20,7 +20,7 @@ func Reduce(since int64) error {
 	rca := nod.NewProgress("reducing content...")
 	defer rca.End()
 
-	rdx, err := kvas.ReduxWriter(data.AbsReduxDir(),
+	rdx, err := kvas.NewReduxWriter(data.AbsReduxDir(),
 		data.CurrentElementsProperty,
 		data.ReduceErrorsProperty,
 		data.SourceURLProperty)

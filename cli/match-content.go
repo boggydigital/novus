@@ -35,7 +35,7 @@ func MatchContent() error {
 		return mca.EndWithError(err)
 	}
 
-	rdx, err := kvas.ReduxWriter(data.AbsReduxDir(), data.MatchContentErrorsProperty)
+	rdx, err := kvas.NewReduxWriter(data.AbsReduxDir(), data.MatchContentErrorsProperty)
 	if err != nil {
 		return mca.EndWithError(err)
 	}

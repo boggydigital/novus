@@ -25,7 +25,7 @@ func Decode() error {
 		return dca.EndWithError(err)
 	}
 
-	rdx, err := kvas.ReduxWriter(data.AbsReduxDir(), data.DecodeErrorsProperty)
+	rdx, err := kvas.NewReduxWriter(data.AbsReduxDir(), data.DecodeErrorsProperty)
 	if err != nil {
 		return dca.EndWithError(err)
 	}
