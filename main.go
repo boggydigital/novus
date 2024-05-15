@@ -69,6 +69,7 @@ func main() {
 	}
 
 	clo.HandleFuncs(map[string]clo.Handler{
+		"backup":        cli.BackupHandler,
 		"decode":        cli.DecodeHandler,
 		"diff":          cli.DiffHandler,
 		"get-content":   cli.GetContentHandler,

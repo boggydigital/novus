@@ -47,5 +47,9 @@ func Sync(novusUrl string) error {
 		return nil
 	}
 
+	if err := Backup(); err != nil {
+		return err
+	}
+
 	return nil
 }
