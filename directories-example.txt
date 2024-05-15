@@ -1,7 +1,13 @@
-state
- # state data
- /var/lib/novus
-logs
- # logs
- /var/log/novus
+backups
+    /usr/share/novus/backups
+input
+    /usr/share/novus/input
+local-content
+    /usr/share/novus/local-content
+matched-content
+    /usr/share/novus/matched-content
+output
+    /usr/share/novus/output
+redux
+    /usr/share/novus/redux
 

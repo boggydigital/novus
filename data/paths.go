@@ -1,51 +1,39 @@
 package data
 
-import "path/filepath"
-
-const (
-	localContentDirectory   = "local-content"
-	matchedContentDirectory = "matched-content"
-	reduxDirectory          = "_redux"
-	backupDirectory         = "backup"
-	sourcesFilename         = "sources.txt"
-	atomFilename            = "atom.xml"
-	cookiesFilename         = "cookies.txt"
+import (
+	"github.com/boggydigital/pathways"
+	"path/filepath"
 )
 
-var absRootDir string
+const (
+	sourcesFilename = "sources.txt"
+	atomFilename    = "atom.xml"
+	cookiesFilename = "cookies.txt"
+)
 
-func ChRoot(d string) {
-	absRootDir = d
+func AbsSourcesPath() (string, error) {
+	aid, err := pathways.GetAbsDir(Input)
+	if err != nil {
+		return "", err
+	}
+
+	return filepath.Join(aid, sourcesFilename), nil
 }
 
-func Pwd() string {
-	return absRootDir
+func AbsCookiesPath() (string, error) {
+	aid, err := pathways.GetAbsDir(Input)
+	if err != nil {
+		return "", err
+	}
+
+	return filepath.Join(aid, cookiesFilename), nil
 }
 
-func AbsBackupDir() string {
-	return filepath.Join(absRootDir, backupDirectory)
-}
+func AbsAtomPath() (string, error) {
+	aod, err := pathways.GetAbsDir(Output)
+	if err != nil {
+		return "", err
+	}
 
-func AbsSourcePath() string {
-	return filepath.Join(absRootDir, sourcesFilename)
-}
-
-func AbsAtomPath() string {
-	return filepath.Join(absRootDir, atomFilename)
-}
-
-func AbsCookiesPath() string {
-	return filepath.Join(absRootDir, cookiesFilename)
-}
-
-func AbsLocalContentDir() string {
-	return filepath.Join(absRootDir, localContentDirectory)
-}
-
-func AbsMatchedContentDir() string {
-	return filepath.Join(absRootDir, matchedContentDirectory)
-}
-
-func AbsReduxDir() string {
-	return filepath.Join(absRootDir, reduxDirectory)
+	return filepath.Join(aod, atomFilename), nil
 }

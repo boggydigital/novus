@@ -12,3 +12,17 @@ const (
 	PreviousElementsProperty = "previous-elements"
 	SourceURLProperty        = "source-url"
 )
+
+func AllProperties() []string {
+	return []string{
+		GetContentErrorsProperty,
+		DecodeErrorsProperty,
+		MatchContentErrorsProperty,
+		ReduceErrorsProperty,
+		CurrentElementsProperty,
+		AddedElementsProperty,
+		RemovedElementsProperty,
+		PreviousElementsProperty,
+		SourceURLProperty,
+	}
+}

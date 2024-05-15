@@ -6,6 +6,7 @@ import (
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
 	"github.com/boggydigital/novus/rest"
+	"github.com/boggydigital/pathways"
 	"net/url"
 	"os"
 	"strings"
@@ -49,9 +50,14 @@ func PublishAtom(novusUrl string) error {
 		data.ReduceErrorsProperty,
 	}
 
+	ard, err := pathways.GetAbsDir(data.Redux)
+	if err != nil {
+		return paa.EndWithError(err)
+	}
+
 	properties = append(properties, errorProperties...)
 
-	rdx, err := kvas.NewReduxReader(data.AbsReduxDir(), properties...)
+	rdx, err := kvas.NewReduxReader(ard, properties...)
 	if err != nil {
 		return paa.EndWithError(err)
 	}
@@ -113,7 +119,12 @@ func PublishAtom(novusUrl string) error {
 	}
 	af.SetEntry(atomEntryTitle, atomEntryAuthor, novusUrl, sb.String())
 
-	atomFile, err := os.Create(data.AbsAtomPath())
+	aap, err := data.AbsAtomPath()
+	if err != nil {
+		return paa.EndWithError(err)
+	}
+
+	atomFile, err := os.Create(aap)
 	if err != nil {
 		return paa.EndWithError(err)
 	}

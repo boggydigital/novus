@@ -6,6 +6,7 @@ import (
 	"github.com/boggydigital/match_node"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
+	"github.com/boggydigital/pathways"
 	"golang.org/x/net/html"
 	"net/url"
 	"strings"
@@ -20,12 +21,27 @@ func MatchContent() error {
 	mca := nod.NewProgress("matching content...")
 	defer mca.End()
 
-	localKv, err := kvas.ConnectLocal(data.AbsLocalContentDir(), ".html")
+	alcd, err := pathways.GetAbsDir(data.LocalContent)
 	if err != nil {
 		return mca.EndWithError(err)
 	}
 
-	matchedKv, err := kvas.ConnectLocal(data.AbsMatchedContentDir(), ".html")
+	amcd, err := pathways.GetAbsDir(data.MatchedContent)
+	if err != nil {
+		return mca.EndWithError(err)
+	}
+
+	ard, err := pathways.GetAbsDir(data.Redux)
+	if err != nil {
+		return mca.EndWithError(err)
+	}
+
+	localKv, err := kvas.ConnectLocal(alcd, ".html")
+	if err != nil {
+		return mca.EndWithError(err)
+	}
+
+	matchedKv, err := kvas.ConnectLocal(amcd, ".html")
 	if err != nil {
 		return mca.EndWithError(err)
 	}
@@ -35,7 +51,7 @@ func MatchContent() error {
 		return mca.EndWithError(err)
 	}
 
-	rdx, err := kvas.NewReduxWriter(data.AbsReduxDir(), data.MatchContentErrorsProperty)
+	rdx, err := kvas.NewReduxWriter(ard, data.MatchContentErrorsProperty)
 	if err != nil {
 		return mca.EndWithError(err)
 	}

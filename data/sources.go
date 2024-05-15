@@ -6,7 +6,13 @@ import (
 )
 
 func LoadSources() ([]*Source, error) {
-	sf, err := os.Open(AbsSourcePath())
+
+	asp, err := AbsSourcesPath()
+	if err != nil {
+		return nil, err
+	}
+
+	sf, err := os.Open(asp)
 	if err != nil {
 		return nil, err
 	}

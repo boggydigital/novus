@@ -19,5 +19,6 @@ require (
 
 require (
 	github.com/boggydigital/issa v0.1.10 // indirect
+	github.com/boggydigital/pathways v0.1.14 // indirect
 	golang.org/x/image v0.16.0 // indirect
 )

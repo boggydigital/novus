@@ -15,10 +15,19 @@ COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 # https://en.wikipedia.org/wiki/Acta_Diurna
 EXPOSE 59222
-#app logs
-VOLUME /var/log/novus
-#app artifacts: content, redux
-VOLUME /var/lib/novus
+
+#backups
+VOLUME /usr/share/novus/backups
+#input
+VOLUME /usr/share/novus/input
+#local-content
+VOLUME /usr/share/novus/local-content
+#matched-content
+VOLUME /usr/share/novus/matched-content
+#output
+VOLUME /usr/share/novus/output
+#redux
+VOLUME /usr/share/novus/redux
 
 ENTRYPOINT ["/usr/bin/nv"]
 CMD ["serve","-port", "59222", "-stderr"]

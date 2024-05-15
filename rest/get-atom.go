@@ -13,8 +13,13 @@ func GetAtom(w http.ResponseWriter, r *http.Request) {
 
 	// GET /atom
 
-	absAtomFeedPath := data.AbsAtomPath()
-	if stat, err := os.Stat(absAtomFeedPath); err == nil {
+	aap, err := data.AbsAtomPath()
+	if err != nil {
+		http.Error(w, nod.Error(err).Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if stat, err := os.Stat(aap); err == nil {
 		lm := stat.ModTime().UTC().Format(http.TimeFormat)
 		w.Header().Set(middleware.LastModifiedHeader, lm)
 		ims := r.Header.Get(middleware.IfModifiedSinceHeader)
@@ -22,7 +27,7 @@ func GetAtom(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotModified)
 			return
 		}
-		http.ServeFile(w, r, absAtomFeedPath)
+		http.ServeFile(w, r, aap)
 	} else {
 		_ = nod.Error(fmt.Errorf("atom feed not found"))
 		http.NotFound(w, r)

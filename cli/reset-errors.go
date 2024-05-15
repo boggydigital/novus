@@ -4,6 +4,7 @@ import (
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
+	"github.com/boggydigital/pathways"
 	"net/url"
 )
 
@@ -16,6 +17,11 @@ func ResetErrors() error {
 	rca := nod.Begin("resetting errors...")
 	defer rca.End()
 
+	ard, err := pathways.GetAbsDir(data.Redux)
+	if err != nil {
+		return rca.EndWithError(err)
+	}
+
 	errorProperties := []string{
 		data.GetContentErrorsProperty,
 		data.MatchContentErrorsProperty,
@@ -23,7 +29,7 @@ func ResetErrors() error {
 		data.ReduceErrorsProperty,
 	}
 
-	rdx, err := kvas.NewReduxWriter(data.AbsReduxDir(), errorProperties...)
+	rdx, err := kvas.NewReduxWriter(ard, errorProperties...)
 	if err != nil {
 		return rca.EndWithError(err)
 	}

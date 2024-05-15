@@ -6,6 +6,7 @@ import (
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
+	"github.com/boggydigital/pathways"
 	"net/http"
 	"net/url"
 )
@@ -19,12 +20,22 @@ func GetContent() error {
 	gca := nod.NewProgress("getting content...")
 	defer gca.End()
 
-	kv, err := kvas.ConnectLocal(data.AbsLocalContentDir(), ".html")
+	alcd, err := pathways.GetAbsDir(data.LocalContent)
 	if err != nil {
 		return gca.EndWithError(err)
 	}
 
-	rdx, err := kvas.NewReduxWriter(data.AbsReduxDir(), data.GetContentErrorsProperty)
+	ard, err := pathways.GetAbsDir(data.Redux)
+	if err != nil {
+		return gca.EndWithError(err)
+	}
+
+	kv, err := kvas.ConnectLocal(alcd, ".html")
+	if err != nil {
+		return gca.EndWithError(err)
+	}
+
+	rdx, err := kvas.NewReduxWriter(ard, data.GetContentErrorsProperty)
 	if err != nil {
 		return gca.EndWithError(err)
 	}
@@ -36,21 +47,22 @@ func GetContent() error {
 
 	gca.TotalInt(len(sources))
 
-	cj, err := coost.NewJar(data.AbsCookiesPath())
+	acp, err := data.AbsCookiesPath()
 	if err != nil {
 		return gca.EndWithError(err)
 	}
 
-	hc := cj.NewHttpClient()
+	hc, err := coost.NewHttpClientFromFile(acp)
+	if err != nil {
+		return gca.EndWithError(err)
+	}
+
 	getContentErrors := make(map[string][]string)
 
 	for _, src := range sources {
 		if err := getSource(src, hc, kv); err != nil {
 			getContentErrors[src.Id] = []string{err.Error()}
 			continue
-		}
-		if err := cj.Store(data.AbsCookiesPath()); err != nil {
-			return gca.EndWithError(err)
 		}
 		gca.Increment()
 	}

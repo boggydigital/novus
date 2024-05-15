@@ -30,8 +30,7 @@ func GetSource(w http.ResponseWriter, r *http.Request) {
 		data.RemovedElementsProperty,
 		data.SourceURLProperty}
 
-	rdx, err := kvas.NewReduxReader(data.AbsReduxDir(), properties...)
-	if err != nil {
+	if rdx, err = rdx.RefreshReader(); err != nil {
 		http.Error(w, nod.Error(err).Error(), http.StatusInternalServerError)
 		return
 	}

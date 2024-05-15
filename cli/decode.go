@@ -5,6 +5,7 @@ import (
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
+	"github.com/boggydigital/pathways"
 	"golang.org/x/text/encoding"
 	"golang.org/x/text/encoding/charmap"
 	"io"
@@ -20,12 +21,22 @@ func Decode() error {
 	dca := nod.NewProgress("decoding content...")
 	defer dca.End()
 
-	kv, err := kvas.ConnectLocal(data.AbsLocalContentDir(), ".html")
+	alcd, err := pathways.GetAbsDir(data.LocalContent)
 	if err != nil {
 		return dca.EndWithError(err)
 	}
 
-	rdx, err := kvas.NewReduxWriter(data.AbsReduxDir(), data.DecodeErrorsProperty)
+	ard, err := pathways.GetAbsDir(data.Redux)
+	if err != nil {
+		return dca.EndWithError(err)
+	}
+
+	kv, err := kvas.ConnectLocal(alcd, ".html")
+	if err != nil {
+		return dca.EndWithError(err)
+	}
+
+	rdx, err := kvas.NewReduxWriter(ard, data.DecodeErrorsProperty)
 	if err != nil {
 		return dca.EndWithError(err)
 	}

@@ -4,6 +4,7 @@ import (
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
+	"github.com/boggydigital/pathways"
 	"net/url"
 )
 
@@ -35,6 +36,11 @@ func TestSources(resetErrors bool) error {
 		return ta.EndWithError(err)
 	}
 
+	ard, err := pathways.GetAbsDir(data.Redux)
+	if err != nil {
+		return ta.EndWithError(err)
+	}
+
 	errorProperties := []string{
 		data.GetContentErrorsProperty,
 		data.DecodeErrorsProperty,
@@ -42,7 +48,7 @@ func TestSources(resetErrors bool) error {
 		data.ReduceErrorsProperty,
 	}
 
-	rdx, err := kvas.NewReduxReader(data.AbsReduxDir(), errorProperties...)
+	rdx, err := kvas.NewReduxReader(ard, errorProperties...)
 
 	if err != nil {
 		return ta.EndWithError(err)

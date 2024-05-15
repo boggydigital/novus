@@ -6,6 +6,7 @@ import (
 	"github.com/boggydigital/match_node"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
+	"github.com/boggydigital/pathways"
 	"golang.org/x/exp/slices"
 	"golang.org/x/net/html"
 	"net/url"
@@ -20,7 +21,17 @@ func Reduce(since int64) error {
 	rca := nod.NewProgress("reducing content...")
 	defer rca.End()
 
-	rdx, err := kvas.NewReduxWriter(data.AbsReduxDir(),
+	amcd, err := pathways.GetAbsDir(data.MatchedContent)
+	if err != nil {
+		return rca.EndWithError(err)
+	}
+
+	ard, err := pathways.GetAbsDir(data.Redux)
+	if err != nil {
+		return rca.EndWithError(err)
+	}
+
+	rdx, err := kvas.NewReduxWriter(ard,
 		data.CurrentElementsProperty,
 		data.ReduceErrorsProperty,
 		data.SourceURLProperty)
@@ -28,7 +39,7 @@ func Reduce(since int64) error {
 		return rca.EndWithError(err)
 	}
 
-	matchedKv, err := kvas.ConnectLocal(data.AbsMatchedContentDir(), ".html")
+	matchedKv, err := kvas.ConnectLocal(amcd, ".html")
 	if err != nil {
 		return rca.EndWithError(err)
 	}

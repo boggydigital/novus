@@ -4,6 +4,7 @@ import (
 	"github.com/boggydigital/kvas"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
+	"github.com/boggydigital/pathways"
 	"golang.org/x/exp/slices"
 	"net/url"
 )
@@ -17,8 +18,12 @@ func Diff() error {
 	uca := nod.NewProgress("detecting changes...")
 	defer uca.End()
 
-	rdx, err := kvas.NewReduxWriter(
-		data.AbsReduxDir(),
+	ard, err := pathways.GetAbsDir(data.Redux)
+	if err != nil {
+		return uca.EndWithError(err)
+	}
+
+	rdx, err := kvas.NewReduxWriter(ard,
 		data.CurrentElementsProperty,
 		data.PreviousElementsProperty,
 		data.AddedElementsProperty,

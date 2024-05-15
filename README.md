@@ -17,10 +17,18 @@ services:
       # - NV_PUBLISH_NOVUS-URL=http://NOVUS-ADDRESS
       # - NV_SYNC_NOVUS-URL=http://NOVUS-ADDRESS
     volumes:
-      # app logs
-      - /docker/novus/logs:/var/log/novus
-      # app state: content, reductions
-      - /docker/novus:/var/lib/novus
+      # backups
+      - /docker/novus/backups:/usr/share/novus/backups
+      # input
+      - /docker/novus:/usr/share/novus/input
+      #local-content
+      - /docker/novus/local-content:/usr/share/novus/local-content
+      #matched-content
+      - /docker/novus/matched-content:/usr/share/novus/matched-content
+      #output
+      - /docker/novus:/usr/share/novus/output
+      #redux
+      - /docker/novus/redux:/usr/share/novus/redux
       # sharing timezone from the host
       - /etc/localtime:/etc/localtime:ro
     ports:
