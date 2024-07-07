@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
 	"net/http"
@@ -54,7 +54,7 @@ func GetSource(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	rdxProxy := kvas.ReduxProxy(srcIpv)
+	rdxProxy := kevlar.ReduxProxy(srcIpv)
 
 	DefaultHeaders(w)
 

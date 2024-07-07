@@ -3,7 +3,7 @@ package cli
 import (
 	"errors"
 	"github.com/boggydigital/coost"
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
 	"github.com/boggydigital/pathways"
@@ -30,12 +30,12 @@ func GetContent() error {
 		return gca.EndWithError(err)
 	}
 
-	kv, err := kvas.ConnectLocal(alcd, ".html")
+	kv, err := kevlar.NewKeyValues(alcd, kevlar.HtmlExt)
 	if err != nil {
 		return gca.EndWithError(err)
 	}
 
-	rdx, err := kvas.NewReduxWriter(ard, data.GetContentErrorsProperty)
+	rdx, err := kevlar.NewReduxWriter(ard, data.GetContentErrorsProperty)
 	if err != nil {
 		return gca.EndWithError(err)
 	}
@@ -76,7 +76,7 @@ func GetContent() error {
 	return nil
 }
 
-func getSource(src *data.Source, hc *http.Client, kv kvas.KeyValues) error {
+func getSource(src *data.Source, hc *http.Client, kv kevlar.KeyValues) error {
 
 	resp, err := hc.Get(src.URL.String())
 	if err != nil {

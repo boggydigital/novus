@@ -2,7 +2,7 @@ package cli
 
 import (
 	"errors"
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
 	"github.com/boggydigital/pathways"
@@ -31,12 +31,12 @@ func Decode() error {
 		return dca.EndWithError(err)
 	}
 
-	kv, err := kvas.ConnectLocal(alcd, ".html")
+	kv, err := kevlar.NewKeyValues(alcd, kevlar.HtmlExt)
 	if err != nil {
 		return dca.EndWithError(err)
 	}
 
-	rdx, err := kvas.NewReduxWriter(ard, data.DecodeErrorsProperty)
+	rdx, err := kevlar.NewReduxWriter(ard, data.DecodeErrorsProperty)
 	if err != nil {
 		return dca.EndWithError(err)
 	}
@@ -72,7 +72,7 @@ func Decode() error {
 	return nil
 }
 
-func decodeContent(kv kvas.KeyValues, id, enc string) error {
+func decodeContent(kv kevlar.KeyValues, id, enc string) error {
 
 	rc, err := kv.Get(id)
 	if err != nil {

@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
 	"github.com/boggydigital/pathways"
@@ -29,7 +29,7 @@ func ResetErrors() error {
 		data.ReduceErrorsProperty,
 	}
 
-	rdx, err := kvas.NewReduxWriter(ard, errorProperties...)
+	rdx, err := kevlar.NewReduxWriter(ard, errorProperties...)
 	if err != nil {
 		return rca.EndWithError(err)
 	}

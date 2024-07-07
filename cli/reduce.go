@@ -2,7 +2,7 @@ package cli
 
 import (
 	"fmt"
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/match_node"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
@@ -31,7 +31,7 @@ func Reduce(since int64) error {
 		return rca.EndWithError(err)
 	}
 
-	rdx, err := kvas.NewReduxWriter(ard,
+	rdx, err := kevlar.NewReduxWriter(ard,
 		data.CurrentElementsProperty,
 		data.ReduceErrorsProperty,
 		data.SourceURLProperty)
@@ -39,7 +39,7 @@ func Reduce(since int64) error {
 		return rca.EndWithError(err)
 	}
 
-	matchedKv, err := kvas.ConnectLocal(amcd, ".html")
+	matchedKv, err := kevlar.NewKeyValues(amcd, kevlar.HtmlExt)
 	if err != nil {
 		return rca.EndWithError(err)
 	}
@@ -56,7 +56,10 @@ func Reduce(since int64) error {
 
 	var ids []string
 	if since > 0 {
-		ids = matchedKv.ModifiedAfter(since, false)
+		ids, err = matchedKv.UpdatedAfter(since)
+		if err != nil {
+			return rca.EndWithError(err)
+		}
 	} else {
 		ids = data.SourcesIds(sources...)
 	}
@@ -86,7 +89,7 @@ func Reduce(since int64) error {
 	return nil
 }
 
-func reduceSource(src *data.Source, kv kvas.KeyValues, rdx kvas.WriteableRedux) error {
+func reduceSource(src *data.Source, kv kevlar.KeyValues, rdx kevlar.WriteableRedux) error {
 
 	if src.Query.ElementsSelector == "" {
 		return nil

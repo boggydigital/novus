@@ -2,7 +2,7 @@ package cli
 
 import (
 	"fmt"
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/match_node"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
@@ -36,12 +36,12 @@ func MatchContent() error {
 		return mca.EndWithError(err)
 	}
 
-	localKv, err := kvas.ConnectLocal(alcd, ".html")
+	localKv, err := kevlar.NewKeyValues(alcd, kevlar.HtmlExt)
 	if err != nil {
 		return mca.EndWithError(err)
 	}
 
-	matchedKv, err := kvas.ConnectLocal(amcd, ".html")
+	matchedKv, err := kevlar.NewKeyValues(amcd, kevlar.HtmlExt)
 	if err != nil {
 		return mca.EndWithError(err)
 	}
@@ -51,7 +51,7 @@ func MatchContent() error {
 		return mca.EndWithError(err)
 	}
 
-	rdx, err := kvas.NewReduxWriter(ard, data.MatchContentErrorsProperty)
+	rdx, err := kevlar.NewReduxWriter(ard, data.MatchContentErrorsProperty)
 	if err != nil {
 		return mca.EndWithError(err)
 	}
@@ -87,7 +87,7 @@ func MatchContent() error {
 	return nil
 }
 
-func matchSource(src *data.Source, localKv, matchedKv kvas.KeyValues) error {
+func matchSource(src *data.Source, localKv, matchedKv kevlar.KeyValues) error {
 	localContent, err := localKv.Get(src.Id)
 	if err != nil {
 		return err

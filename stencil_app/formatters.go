@@ -1,11 +1,11 @@
 package stencil_app
 
 import (
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/novus/data"
 )
 
-func fmtLabel(_, property, link string, _ kvas.ReadableRedux) string {
+func fmtLabel(_, property, link string, _ kevlar.ReadableRedux) string {
 	label := link
 	switch property {
 	default:
@@ -14,7 +14,7 @@ func fmtLabel(_, property, link string, _ kvas.ReadableRedux) string {
 	return label
 }
 
-func fmtTitle(id, property, link string, _ kvas.ReadableRedux) string {
+func fmtTitle(id, property, link string, _ kevlar.ReadableRedux) string {
 	title := link
 
 	switch property {
@@ -27,7 +27,7 @@ func fmtTitle(id, property, link string, _ kvas.ReadableRedux) string {
 	return title
 }
 
-func fmtHref(_, property, link string, _ kvas.ReadableRedux) string {
+func fmtHref(_, property, link string, _ kevlar.ReadableRedux) string {
 	switch property {
 	case data.URL:
 		return link
@@ -37,10 +37,10 @@ func fmtHref(_, property, link string, _ kvas.ReadableRedux) string {
 	return ""
 }
 
-func fmtAction(id, property, link string, _ kvas.ReadableRedux) string {
+func fmtAction(id, property, link string, _ kevlar.ReadableRedux) string {
 	return ""
 }
 
-func fmtActionHref(id, property, link string, _ kvas.ReadableRedux) string {
+func fmtActionHref(id, property, link string, _ kevlar.ReadableRedux) string {
 	return ""
 }

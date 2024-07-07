@@ -2,7 +2,7 @@ package cli
 
 import (
 	"github.com/boggydigital/atomus"
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
 	"github.com/boggydigital/novus/rest"
@@ -57,7 +57,7 @@ func PublishAtom(novusUrl string) error {
 
 	properties = append(properties, errorProperties...)
 
-	rdx, err := kvas.NewReduxReader(ard, properties...)
+	rdx, err := kevlar.NewReduxReader(ard, properties...)
 	if err != nil {
 		return paa.EndWithError(err)
 	}
@@ -75,7 +75,7 @@ func PublishAtom(novusUrl string) error {
 
 	for id := range ks {
 		host := ""
-		if su, ok := rdx.GetFirstVal(data.SourceURLProperty, id); ok {
+		if su, ok := rdx.GetLastVal(data.SourceURLProperty, id); ok {
 			host = rest.Host(su)
 		}
 
@@ -139,7 +139,7 @@ func PublishAtom(novusUrl string) error {
 	return nil
 }
 
-func keys(rdx kvas.ReadableRedux, properties ...string) map[string]interface{} {
+func keys(rdx kevlar.ReadableRedux, properties ...string) map[string]interface{} {
 	ks := make(map[string]interface{})
 	for _, p := range properties {
 		for _, id := range rdx.Keys(p) {

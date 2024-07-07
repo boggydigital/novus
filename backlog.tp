@@ -2,7 +2,7 @@ Archive:
 	Improve sync performance: @done(2023-05-09)
 		- use "If-Modified-Since" when requesting content @done(2023-05-09)
 			- should also make standard for vangogh/fedorov @done(2023-05-09)
-		- use kvas.GetSet for concurrent downloads @done(2023-05-08)
+		- use kevlar.GetSet for concurrent downloads @done(2023-05-08)
 		- only consider content modified since sync start for reduction and diffing @done(2023-05-08)
 		
 	REST endpoints: @done(2023-05-09)

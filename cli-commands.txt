@@ -16,6 +16,8 @@ get-content
 
 match-content
 
+migrate
+
 publish-atom
     novus-url$
 

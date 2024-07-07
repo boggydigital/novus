@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
 	"github.com/boggydigital/pathways"
@@ -23,7 +23,7 @@ func Diff() error {
 		return uca.EndWithError(err)
 	}
 
-	rdx, err := kvas.NewReduxWriter(ard,
+	rdx, err := kevlar.NewReduxWriter(ard,
 		data.CurrentElementsProperty,
 		data.PreviousElementsProperty,
 		data.AddedElementsProperty,

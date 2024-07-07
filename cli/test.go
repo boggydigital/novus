@@ -1,7 +1,7 @@
 package cli
 
 import (
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
 	"github.com/boggydigital/pathways"
@@ -48,7 +48,7 @@ func TestSources(resetErrors bool) error {
 		data.ReduceErrorsProperty,
 	}
 
-	rdx, err := kvas.NewReduxReader(ard, errorProperties...)
+	rdx, err := kevlar.NewReduxReader(ard, errorProperties...)
 
 	if err != nil {
 		return ta.EndWithError(err)

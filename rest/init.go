@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/novus/data"
 	"github.com/boggydigital/novus/stencil_app"
 	"github.com/boggydigital/pathways"
@@ -13,7 +13,7 @@ import (
 var (
 	tmpl *template.Template
 	app  *stencil.AppConfiguration
-	rdx  kvas.ReadableRedux
+	rdx  kevlar.ReadableRedux
 )
 
 func Init(templatesFS fs.FS, tmplFuncs template.FuncMap, stencilAppStyles fs.FS) error {
@@ -32,7 +32,7 @@ func Init(templatesFS fs.FS, tmplFuncs template.FuncMap, stencilAppStyles fs.FS)
 		return err
 	}
 
-	rdx, err = kvas.NewReduxReader(arp, data.AllProperties()...)
+	rdx, err = kevlar.NewReduxReader(arp, data.AllProperties()...)
 	if err != nil {
 		return err
 	}

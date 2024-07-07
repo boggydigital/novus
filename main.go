@@ -74,6 +74,7 @@ func main() {
 		"diff":          cli.DiffHandler,
 		"get-content":   cli.GetContentHandler,
 		"match-content": cli.MatchContentHandler,
+		"migrate":       cli.MigrateHandler,
 		"publish-atom":  cli.PublishAtomHandler,
 		"reduce":        cli.ReduceHandler,
 		"reset-changes": cli.ResetChangesHandler,

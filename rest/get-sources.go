@@ -1,7 +1,7 @@
 package rest
 
 import (
-	"github.com/boggydigital/kvas"
+	"github.com/boggydigital/kevlar"
 	"github.com/boggydigital/nod"
 	"github.com/boggydigital/novus/data"
 	"github.com/boggydigital/novus/stencil_app"
@@ -43,7 +43,7 @@ func GetSources(w http.ResponseWriter, r *http.Request) {
 		categoryTotals[c] = len(sourcesByCategory[c])
 	}
 
-	rdx := kvas.ReduxProxy(srcIpv)
+	rdx := kevlar.ReduxProxy(srcIpv)
 
 	if err := app.RenderGroup(
 		stencil_app.NavSources,
