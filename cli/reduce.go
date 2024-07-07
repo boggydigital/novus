@@ -56,7 +56,7 @@ func Reduce(since int64) error {
 
 	var ids []string
 	if since > 0 {
-		ids, err = matchedKv.UpdatedAfter(since)
+		ids, err = matchedKv.CreatedOrUpdatedAfter(since)
 		if err != nil {
 			return rca.EndWithError(err)
 		}
